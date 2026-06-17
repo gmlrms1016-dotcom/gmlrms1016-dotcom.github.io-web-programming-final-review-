@@ -1,0 +1,538 @@
+/* ===================================================================== */
+/* 웹프로그래밍 기초 - 기말 정리용 스타일시트 (CSS)                        */
+/* HTML 파일과 <link> 태그로 연결됩니다. 한 줄마다 주석으로 설명합니다.     */
+/* ===================================================================== */
+
+
+/* ---------------------------------------------------------------------
+   [6주차] CSS 변수(:root) - 색상 값을 한 곳에서 관리하는 기능
+   :root 는 문서 전체(html)를 가리키는 선택자입니다.
+   --이름 형태로 변수를 만들고, var(--이름) 으로 꺼내 씁니다.
+--------------------------------------------------------------------- */
+:root {                              /* 문서 전체에 적용되는 변수 모음 */
+    --main: #2d6a4f;                 /* 메인 색(진한 초록) 변수 선언 */
+    --point: #d9772b;                /* 포인트 색(주황) 변수 선언 */
+    --bg: #f4f6f4;                   /* 페이지 배경색 변수 선언 */
+    --card: #ffffff;                 /* 카드(흰 박스) 배경색 변수 선언 */
+    --line: #d7ddd7;                 /* 테두리 선 색 변수 선언 */
+    --ink: #1d241e;                  /* 기본 글자색(거의 검정) 변수 선언 */
+    --code-bg: #1e2530;              /* 코드 보기 박스 배경(어두운 색) */
+}
+
+
+/* ---------------------------------------------------------------------
+   [6·10주차] 전체 선택자(*) 와 box-sizing
+   * 는 모든 태그를 한꺼번에 선택합니다.
+   box-sizing:border-box 는 padding/border 를 포함해서 width 를 계산합니다.
+--------------------------------------------------------------------- */
+* {                                  /* 페이지의 모든 요소를 선택 */
+    margin: 0;                       /* 모든 요소의 바깥 여백을 0으로 초기화 */
+    padding: 0;                      /* 모든 요소의 안쪽 여백을 0으로 초기화 */
+    box-sizing: border-box;          /* width 에 padding/테두리까지 포함시킴 */
+}
+
+
+/* ---------------------------------------------------------------------
+   [6·7·10주차] 태그(요소) 선택자 - body 전체 기본 모양 지정
+--------------------------------------------------------------------- */
+body {                               /* <body> 태그(화면 전체)를 선택 */
+    font-family: "맑은 고딕", Arial, sans-serif; /* 기본 글꼴 지정 */
+    line-height: 1.7;                /* 줄 간격을 글자 크기의 1.7배로 */
+    color: var(--ink);               /* 글자색을 위에서 만든 변수로 지정 */
+    background: var(--bg);           /* 배경색을 변수로 지정 */
+    padding: 24px;                   /* 화면 가장자리 안쪽 여백 24px */
+}
+
+
+/* ---------------------------------------------------------------------
+   [2·6주차] 제목/문단 같은 텍스트 태그 기본 스타일
+--------------------------------------------------------------------- */
+h1, h2, h3 {                         /* h1·h2·h3 을 그룹으로 묶어 선택 */
+    color: var(--main);              /* 제목 글자색을 메인 색으로 */
+    line-height: 1.3;                /* 제목의 줄 간격을 1.3배로 */
+}
+p {                                  /* 모든 문단 <p> 선택 */
+    margin: 8px 0;                   /* 위아래 8px, 좌우 0 의 바깥 여백 */
+}
+
+
+/* ---------------------------------------------------------------------
+   [10·13주차] 페이지 전체를 감싸는 박스(가운데 정렬 레이아웃)
+   margin: 0 auto 는 좌우 여백을 자동으로 만들어 가운데 정렬합니다.
+--------------------------------------------------------------------- */
+.wrap {                              /* class="wrap" 인 요소를 선택(.은 클래스) */
+    max-width: 960px;                /* 최대 너비를 960px 로 제한 */
+    margin: 0 auto;                  /* 위아래 0, 좌우 auto → 가운데 정렬 */
+}
+
+
+/* ---------------------------------------------------------------------
+   [10·11주차] 페이지 맨 위 머리말(헤더) - 박스 모델 + 그림자 + 둥근 모서리
+--------------------------------------------------------------------- */
+.page-head {                         /* class="page-head" 선택 */
+    background: var(--main);         /* 배경을 메인 초록색으로 */
+    color: #fff;                     /* 글자색을 흰색으로 */
+    text-align: center;              /* 안쪽 글자를 가운데 정렬 */
+    padding: 32px 20px;              /* 위아래 32px, 좌우 20px 안쪽 여백 */
+    border-radius: 14px;             /* 모서리를 14px 둥글게 */
+    margin-bottom: 24px;             /* 아래쪽 바깥 여백 24px */
+}
+.page-head h1 {                      /* page-head 안의 h1 만 선택(후손 선택자) */
+    color: #fff;                     /* 제목 글자색을 흰색으로(위 규칙 덮어쓰기) */
+    font-size: 30px;                 /* 글자 크기 30px */
+}
+.page-head p {                       /* page-head 안의 p 선택 */
+    color: #d8efe2;                  /* 부제 글자색을 연한 초록으로 */
+}
+
+
+/* ---------------------------------------------------------------------
+   [9·13주차] 목차 - 플렉스 박스(flex)로 가로 정렬
+   display:flex 를 주면 자식들이 가로로 나란히 배치됩니다.
+--------------------------------------------------------------------- */
+.toc {                               /* 목차 상자 선택 */
+    display: flex;                   /* 자식 요소를 가로로 나란히 배치 */
+    flex-wrap: wrap;                 /* 공간이 부족하면 다음 줄로 넘김 */
+    gap: 8px;                        /* 자식 요소 사이 간격 8px */
+    background: var(--card);         /* 배경 흰색 */
+    border: 1px solid var(--line);   /* 1px 실선 테두리 */
+    border-radius: 12px;             /* 모서리 둥글게 */
+    padding: 16px;                   /* 안쪽 여백 16px */
+    margin-bottom: 24px;             /* 아래 여백 24px */
+}
+.toc a {                             /* 목차 안의 링크 <a> 선택 */
+    display: inline-block;           /* 링크를 박스처럼 다뤄 padding 적용되게 */
+    padding: 6px 12px;               /* 안쪽 여백(위아래6, 좌우12) */
+    background: #eaf2ec;             /* 연한 초록 배경 */
+    color: var(--main);             /* 글자색 메인 색 */
+    border-radius: 50px;             /* 알약 모양으로 둥글게 */
+    text-decoration: none;           /* 링크 밑줄 제거 */
+    font-size: 14px;                 /* 글자 크기 14px */
+    transition: background 0.2s;     /* 배경색이 0.2초에 걸쳐 바뀌도록(전환) */
+}
+.toc a:hover {                       /* 마우스를 올렸을 때(:hover 가상 클래스) */
+    background: var(--main);         /* 배경을 진한 초록으로 */
+    color: #fff;                     /* 글자색을 흰색으로 */
+}
+
+
+/* ---------------------------------------------------------------------
+   [10주차] 각 주제를 담는 카드(흰 박스) - 박스 모델의 핵심 예시
+--------------------------------------------------------------------- */
+.card {                              /* class="card" 선택 */
+    background: var(--card);         /* 배경 흰색 */
+    border: 1px solid var(--line);   /* 테두리 1px 실선 */
+    border-radius: 12px;             /* 모서리 둥글게 */
+    padding: 22px;                   /* 안쪽 여백 22px */
+    margin-bottom: 22px;             /* 카드끼리 아래 간격 22px */
+}
+.card h2 {                           /* 카드 안의 h2(주제 제목) */
+    font-size: 22px;                 /* 글자 크기 22px */
+    border-bottom: 2px solid var(--line); /* 아래쪽에만 2px 밑줄 테두리 */
+    padding-bottom: 8px;             /* 글자와 밑줄 사이 간격 8px */
+    margin-bottom: 14px;             /* 제목 아래 여백 14px */
+}
+.week {                              /* 주차 표시 배지(예: 2주차) */
+    display: inline-block;           /* 글자 크기만큼만 차지하는 박스로 */
+    background: var(--point);        /* 배경 주황색 */
+    color: #fff;                     /* 글자 흰색 */
+    font-size: 12px;                 /* 작은 글자 12px */
+    padding: 2px 10px;               /* 안쪽 여백 */
+    border-radius: 50px;             /* 알약 모양 */
+    margin-left: 8px;                /* 제목과의 왼쪽 간격 8px */
+    vertical-align: middle;          /* 제목 글자와 세로 가운데 정렬 */
+}
+
+
+/* ---------------------------------------------------------------------
+   [10주차] '미리보기(실제 결과)' 박스 - 예제가 실제로 그려지는 영역
+--------------------------------------------------------------------- */
+.demo {                              /* 실행 결과를 보여주는 상자 */
+    border: 1px dashed var(--main);  /* 점선(dashed) 테두리로 결과 영역 강조 */
+    border-radius: 10px;             /* 모서리 둥글게 */
+    padding: 16px;                   /* 안쪽 여백 16px */
+    margin: 10px 0;                  /* 위아래 바깥 여백 10px */
+    background: #fbfdfb;             /* 아주 옅은 배경색 */
+}
+.demo::before {                      /* demo 박스 앞(::before)에 가짜 내용 삽입 */
+    content: "▼ 실제 화면 결과";      /* 표시할 안내 문구 */
+    display: block;                  /* 한 줄을 통째로 차지 */
+    font-size: 12px;                 /* 작은 글자 */
+    color: var(--point);             /* 주황색 글자 */
+    margin-bottom: 8px;              /* 아래 여백 8px */
+}
+
+
+/* ---------------------------------------------------------------------
+   [6·7주차] '코드 보기' 박스 - 작성한 코드를 그대로 보여주는 영역
+   <pre> 는 띄어쓰기/줄바꿈을 입력한 그대로 보여주는 태그입니다.
+--------------------------------------------------------------------- */
+pre {                                /* <pre> 태그(코드 블록) 선택 */
+    background: var(--code-bg);      /* 어두운 배경(코드 편집기 느낌) */
+    color: #e6edf3;                  /* 밝은 글자색 */
+    padding: 14px 16px;              /* 안쪽 여백 */
+    border-radius: 10px;             /* 모서리 둥글게 */
+    overflow-x: auto;                /* 코드가 길면 가로 스크롤바 생성 */
+    font-size: 13px;                 /* 코드 글자 크기 13px */
+    line-height: 1.55;               /* 코드 줄 간격 */
+    margin: 10px 0;                  /* 위아래 여백 */
+}
+code {                              /* <code>(코드 글자) 선택 */
+    font-family: Consolas, "D2Coding", monospace; /* 고정폭 글꼴 */
+}
+pre::before {                        /* 코드 박스 앞에 안내 문구 삽입 */
+    content: "</> 코드";              /* 표시할 문구 */
+    display: block;                  /* 한 줄 차지 */
+    color: #7ea8c9;                  /* 옅은 파란 글자 */
+    font-size: 12px;                 /* 작은 글자 */
+    margin-bottom: 6px;              /* 아래 여백 */
+}
+
+
+/* ---------------------------------------------------------------------
+   [2주차] 표(table) 스타일 - 본문 예제표가 보기 좋게 나오도록
+   border-collapse 는 셀 사이의 이중 테두리를 하나로 합칩니다.
+--------------------------------------------------------------------- */
+table {                              /* 모든 <table> 선택 */
+    border-collapse: collapse;       /* 셀 테두리를 하나로 합침 */
+    margin: 10px 0;                  /* 위아래 여백 */
+    width: 100%;                     /* 부모 너비에 꽉 차게 */
+}
+th, td {                             /* 머리칸(th)과 일반칸(td)을 함께 선택 */
+    border: 1px solid var(--line);   /* 칸마다 1px 테두리 */
+    padding: 8px 10px;               /* 칸 안쪽 여백 */
+    text-align: center;              /* 글자 가운데 정렬 */
+}
+th {                                 /* 머리칸만 따로 선택 */
+    background: #eaf2ec;             /* 연한 초록 배경으로 구분 */
+}
+
+
+/* ---------------------------------------------------------------------
+   [10주차] display(블록/인라인/인라인블록) 데모용 상자들
+--------------------------------------------------------------------- */
+.box {                               /* 데모용 공통 박스 */
+    background: var(--main);         /* 초록 배경 */
+    color: #fff;                     /* 흰 글자 */
+    padding: 10px;                   /* 안쪽 여백 */
+    margin: 4px;                     /* 바깥 여백 */
+    text-align: center;             /* 가운데 정렬 */
+}
+.d-block { display: block; }         /* 블록: 한 줄을 통째로 차지 */
+.d-inline { display: inline; }       /* 인라인: 글자처럼 옆으로 나열(크기지정X) */
+.d-inline-block {                    /* 인라인블록: 옆으로 나열 + 크기지정 가능 */
+    display: inline-block;           /* 인라인이면서 박스 성질을 가짐 */
+    width: 90px;                     /* 너비 지정이 적용됨 */
+    height: 50px;                    /* 높이 지정이 적용됨 */
+}
+
+
+/* ---------------------------------------------------------------------
+   [13주차] 그리드(grid) 데모 - 칸을 격자(행/열)로 배치
+--------------------------------------------------------------------- */
+.grid {                              /* 그리드 컨테이너 */
+    display: grid;                   /* 격자 배치 모드 켜기 */
+    grid-template-columns: repeat(3, 1fr); /* 같은 너비 3칸으로 분할 */
+    gap: 8px;                        /* 칸 사이 간격 8px */
+}
+
+
+/* ---------------------------------------------------------------------
+   [12주차 대신 11주차 CSS] position(위치) 데모
+   relative(기준 잡기) + absolute(기준 안에서 좌표로 배치)
+--------------------------------------------------------------------- */
+.pos-parent {                        /* 위치의 기준이 되는 부모 */
+    position: relative;              /* 자식 absolute 의 기준점이 됨 */
+    height: 90px;                    /* 높이 확보 */
+    background: #eaf2ec;             /* 연한 배경 */
+    border: 1px solid var(--line);   /* 테두리 */
+}
+.pos-child {                         /* 부모 기준으로 떠 있는 자식 */
+    position: absolute;              /* 일반 흐름에서 빼내 좌표로 배치 */
+    right: 10px;                     /* 부모 오른쪽에서 10px 떨어뜨림 */
+    bottom: 10px;                    /* 부모 아래쪽에서 10px 떨어뜨림 */
+    background: var(--point);        /* 주황 배경 */
+    color: #fff;                     /* 흰 글자 */
+    padding: 6px 10px;               /* 안쪽 여백 */
+    border-radius: 6px;              /* 모서리 둥글게 */
+}
+
+
+/* ---------------------------------------------------------------------
+   [11주차] 전환(transition)과 변형(transform) 데모
+   마우스를 올리면 부드럽게 커지는 박스
+--------------------------------------------------------------------- */
+.hover-box {                         /* 마우스 반응 박스 */
+    background: var(--point);        /* 주황 배경 */
+    color: #fff;                     /* 흰 글자 */
+    padding: 14px;                   /* 안쪽 여백 */
+    width: 180px;                    /* 너비 180px */
+    text-align: center;             /* 가운데 정렬 */
+    border-radius: 8px;              /* 모서리 둥글게 */
+    transition: transform 0.3s;      /* 변형이 0.3초 동안 부드럽게 진행 */
+}
+.hover-box:hover {                   /* 마우스를 올렸을 때 */
+    transform: scale(1.1);           /* 크기를 1.1배로 확대 */
+}
+
+
+/* ---------------------------------------------------------------------
+   [11주차] 애니메이션(@keyframes + animation) 데모
+   @keyframes 로 동작 단계를 정의하고 animation 으로 실행합니다.
+--------------------------------------------------------------------- */
+@keyframes colorMove {               /* colorMove 라는 애니메이션 정의 */
+    0%   { background: var(--main); } /* 시작(0%)은 초록 */
+    50%  { background: var(--point); }/* 중간(50%)은 주황 */
+    100% { background: var(--main); } /* 끝(100%)은 다시 초록 */
+}
+.anim-box {                          /* 애니메이션을 적용할 박스 */
+    color: #fff;                     /* 흰 글자 */
+    padding: 14px;                   /* 안쪽 여백 */
+    width: 220px;                    /* 너비 */
+    text-align: center;             /* 가운데 정렬 */
+    border-radius: 8px;              /* 모서리 둥글게 */
+    animation-name: colorMove;       /* 위에서 만든 애니메이션 이름 연결 */
+    animation-duration: 3s;          /* 한 번 도는 데 3초 */
+    animation-iteration-count: infinite; /* 무한 반복 */
+}
+
+
+/* ---------------------------------------------------------------------
+   [13주차] 반응형 웹 - 미디어 쿼리(@media)
+   화면 너비가 작아지면(700px 이하) 다른 스타일을 적용합니다.
+--------------------------------------------------------------------- */
+@media screen and (max-width: 700px) { /* 화면 폭이 700px 이하일 때만 적용 */
+    body {                           /* 작은 화면에서 body */
+        padding: 12px;               /* 바깥 여백을 줄임 */
+    }
+    .grid {                          /* 작은 화면에서 그리드 */
+        grid-template-columns: 1fr;  /* 3칸 → 1칸으로 세로 배치 */
+    }
+    .page-head h1 {                  /* 작은 화면 제목 */
+        font-size: 24px;             /* 글자 크기를 줄임 */
+    }
+}
+
+
+/* ---------------------------------------------------------------------
+   [추가] 보강 예제용 보조 스타일들 (팁박스 / 색상견본 / flex데모 / 설명표)
+--------------------------------------------------------------------- */
+.tip {                               /* 노란 팁/암기 포인트 박스 */
+    background: #fff8e6;             /* 연한 노랑 배경 */
+    border-left: 5px solid var(--point); /* 왼쪽에 주황 강조선 */
+    padding: 10px 14px;              /* 안쪽 여백 */
+    border-radius: 6px;              /* 모서리 둥글게 */
+    margin: 10px 0;                  /* 위아래 여백 */
+    font-size: 14px;                 /* 글자 크기 */
+}
+.tip b { color: var(--point); }      /* 팁 박스 안 굵은 글자는 주황색 */
+
+.swatch {                            /* 색상 표현 견본 칩 */
+    display: inline-block;           /* 옆으로 나란히 + 크기 지정 가능 */
+    width: 150px;                    /* 너비 */
+    padding: 14px 6px;               /* 안쪽 여백 */
+    margin: 3px;                     /* 칩 사이 여백 */
+    border-radius: 6px;              /* 모서리 둥글게 */
+    color: #fff;                     /* 글자 흰색 */
+    text-align: center;             /* 가운데 정렬 */
+    font-size: 13px;                 /* 작은 글자 */
+}
+
+.flex-demo {                         /* flex 설명용 데모 상자 */
+    display: flex;                   /* 가로 배치 */
+    justify-content: space-between;  /* 양 끝으로 벌려 배치 */
+    align-items: center;             /* 세로 가운데 정렬 */
+    gap: 8px;                        /* 칸 사이 간격 */
+    background: #eaf2ec;             /* 연한 배경 */
+    padding: 10px;                   /* 안쪽 여백 */
+    border-radius: 8px;              /* 모서리 둥글게 */
+}
+
+.ref td { text-align: left; }        /* 설명표(.ref)의 칸은 왼쪽 정렬 */
+.ref td:first-child {                /* 설명표의 첫 칸(코드/태그 이름) */
+    font-family: Consolas, monospace;/* 고정폭 글꼴(코드처럼) */
+    color: var(--main);             /* 메인 초록색 */
+    font-weight: bold;              /* 굵게 */
+    white-space: nowrap;            /* 줄바꿈 안 함 */
+}
+
+.float-demo::after {                 /* float 데모 다음 줄 정리(clearfix) */
+    content: "";                     /* 빈 가상 요소 */
+    display: block;                  /* 블록으로 */
+    clear: both;                     /* 양쪽 float 해제 */
+}
+
+
+/* ---------------------------------------------------------------------
+   [퀴즈 시스템] 스스로 풀어보는 문제 영역 스타일
+   (채점 동작은 HTML 맨 아래 <script>가 담당 — 학습 내용은 모두 HTML/CSS)
+--------------------------------------------------------------------- */
+#quiz-score {                        /* 맞힌 개수 점수판 */
+    display: inline-block;           /* 글자만큼만 차지 */
+    background: var(--green-soft, #e7f0e9); /* 연한 초록 배경 */
+    color: var(--main);             /* 메인 초록 글자 */
+    font-size: 18px;                 /* 글자 크기 */
+    font-weight: 900;                /* 아주 굵게 */
+    padding: 10px 16px;              /* 안쪽 여백 */
+    border-radius: 50px;             /* 알약 모양 */
+    margin-bottom: 14px;             /* 아래 여백 */
+}
+.quiz-item {                         /* 문제 한 개를 담는 카드 */
+    border: 1px solid var(--line);   /* 테두리 */
+    border-radius: 10px;             /* 모서리 둥글게 */
+    background: #fbfdfb;             /* 옅은 배경 */
+    padding: 16px;                   /* 안쪽 여백 */
+    margin: 12px 0;                  /* 문제 사이 간격 */
+}
+.quiz-q {                            /* 문제 질문 글자 */
+    font-weight: 800;                /* 굵게 */
+    margin-bottom: 10px;             /* 아래 여백 */
+}
+.quiz-q b { color: var(--point); }   /* 질문 속 강조어는 주황색 */
+.quiz-cat {                          /* 문제 분류(카테고리) 칩 */
+    display: inline-block;           /* 글자만큼 차지 */
+    background: var(--main);         /* 초록 배경 */
+    color: #fff;                     /* 흰 글자 */
+    font-size: 11px;                 /* 작은 글자 */
+    font-weight: 800;                /* 굵게 */
+    padding: 2px 8px;                /* 안쪽 여백 */
+    border-radius: 50px;             /* 알약 모양 */
+    margin-right: 6px;               /* 오른쪽 간격 */
+    vertical-align: middle;          /* 세로 가운데 */
+}
+.quiz-filter {                       /* 카테고리 거르기 버튼 줄 */
+    display: flex;                   /* 가로 배치 */
+    flex-wrap: wrap;                 /* 넘치면 줄바꿈 */
+    gap: 6px;                        /* 버튼 간격 */
+    margin: 12px 0;                  /* 위아래 여백 */
+}
+.quiz-filter button {                /* 카테고리 버튼 */
+    background: #eaf2ec;             /* 연한 초록 */
+    color: var(--main);             /* 초록 글자 */
+    border: 1px solid var(--line);   /* 테두리 */
+    border-radius: 50px;             /* 알약 */
+    padding: 5px 12px;               /* 여백 */
+    font-size: 13px;                 /* 글자 크기 */
+    font-weight: 700;                /* 굵게 */
+    cursor: pointer;                 /* 손가락 커서 */
+}
+.quiz-filter button.active {         /* 선택된 카테고리 버튼 */
+    background: var(--main);         /* 초록 배경 */
+    color: #fff;                     /* 흰 글자 */
+}
+
+/* 풀이 방식(옵션1/옵션2) 선택 버튼 */
+.quiz-mode {                         /* 모드 버튼 줄 */
+    display: flex;                   /* 가로 배치 */
+    gap: 8px;                        /* 간격 */
+    flex-wrap: wrap;                 /* 좁으면 줄바꿈 */
+    margin: 12px 0;                  /* 위아래 여백 */
+}
+.quiz-mode button {                  /* 모드 버튼 */
+    flex: 1;                         /* 같은 너비로 늘어남 */
+    min-width: 220px;                /* 최소 너비 */
+    padding: 12px;                   /* 안쪽 여백 */
+    border: 2px solid var(--line);   /* 테두리 */
+    background: #fff;                /* 흰 배경 */
+    border-radius: 10px;             /* 둥근 모서리 */
+    font-weight: 800;                /* 굵게 */
+    color: var(--ink);              /* 기본 글자색 */
+    cursor: pointer;                 /* 손가락 커서 */
+}
+.quiz-mode button.active {           /* 선택된 모드 */
+    background: var(--main);         /* 초록 배경 */
+    color: #fff;                     /* 흰 글자 */
+    border-color: var(--main);       /* 초록 테두리 */
+}
+
+/* HTML/CSS 구분 배지 (공통) */
+.quiz-kind {                         /* 문제 종류 배지 */
+    display: inline-block;           /* 글자만큼 차지 */
+    font-size: 11px;                 /* 작은 글자 */
+    font-weight: 900;                /* 아주 굵게 */
+    padding: 2px 8px;                /* 안쪽 여백 */
+    border-radius: 50px;             /* 알약 모양 */
+    margin-right: 6px;               /* 오른쪽 간격 */
+    color: #fff;                     /* 흰 글자 */
+    vertical-align: middle;          /* 세로 가운데 */
+}
+.kind-html { background: #2d526d; }  /* HTML 문제 = 파랑 */
+.kind-css  { background: #d9772b; }  /* CSS 문제 = 주황 */
+
+/* 옵션2: 한 문제씩 랜덤 - 진행 상황 표시줄 */
+.single-progress {                   /* 남은 문제 안내줄 */
+    background: #eaf2ec;             /* 연한 초록 배경 */
+    border-radius: 8px;              /* 둥근 모서리 */
+    padding: 10px 14px;              /* 안쪽 여백 */
+    font-size: 14px;                 /* 글자 크기 */
+    margin-bottom: 12px;             /* 아래 여백 */
+}
+.single-progress b { color: var(--main); } /* 숫자 강조는 초록 */
+
+/* 옵션2: 다음 문제 버튼(눈에 띄게 주황) */
+.quiz-btn.next { background: var(--point); } /* 주황 배경 */
+
+/* 옵션2: 모두 풀었을 때 완료 화면 */
+.quiz-done {                         /* 완료 축하 박스 */
+    text-align: center;             /* 가운데 정렬 */
+    background: var(--green-soft, #e7f0e9); /* 연한 초록 배경 */
+    border: 2px solid var(--main);   /* 초록 테두리 */
+    border-radius: 12px;             /* 둥근 모서리 */
+    padding: 30px 20px;              /* 안쪽 여백 */
+    font-size: 20px;                 /* 큰 글자 */
+    font-weight: 900;                /* 아주 굵게 */
+    color: var(--main);             /* 초록 글자 */
+    line-height: 2;                  /* 줄 간격 */
+}
+.quiz-item input[type=text] {        /* 답 입력칸 */
+    width: 60%;                      /* 너비 60% */
+    min-width: 200px;                /* 최소 너비 */
+    padding: 10px 12px;              /* 안쪽 여백 */
+    border: 1px solid var(--line);   /* 테두리 */
+    border-radius: 8px;              /* 모서리 둥글게 */
+    font-size: 15px;                 /* 글자 크기 */
+    font-family: Consolas, monospace;/* 코드 입력이라 고정폭 글꼴 */
+}
+.quiz-btns {                         /* 버튼 줄 */
+    margin-top: 10px;                /* 위 여백 */
+    display: flex;                   /* 가로 배치 */
+    gap: 8px;                        /* 버튼 간격 */
+    flex-wrap: wrap;                 /* 좁으면 줄바꿈 */
+}
+.quiz-btn {                          /* 확인 버튼(기본) */
+    background: var(--main);         /* 초록 배경 */
+    color: #fff;                     /* 흰 글자 */
+    border: 0;                       /* 테두리 없음 */
+    padding: 9px 16px;               /* 안쪽 여백 */
+    border-radius: 8px;              /* 모서리 둥글게 */
+    font-weight: 800;                /* 굵게 */
+    cursor: pointer;                 /* 손가락 커서 */
+}
+.quiz-btn.ghost {                    /* 힌트/정답보기 버튼(연한 색) */
+    background: #eaf2ec;             /* 연한 초록 배경 */
+    color: var(--main);             /* 초록 글자 */
+}
+.quiz-btn:hover { opacity: 0.9; }    /* 마우스 올리면 살짝 흐리게 */
+.quiz-feedback {                     /* 채점 결과 표시 영역 */
+    display: none;                   /* 평소엔 숨김 */
+    margin-top: 10px;                /* 위 여백 */
+    padding: 10px 12px;              /* 안쪽 여백 */
+    border-radius: 8px;              /* 모서리 둥글게 */
+    font-weight: 700;                /* 굵게 */
+}
+.quiz-feedback.ok {                  /* 정답일 때 */
+    display: block;                  /* 보이게 */
+    background: #e7f0e9;             /* 초록 배경 */
+    color: var(--green);            /* 초록 글자 */
+}
+.quiz-feedback.no {                  /* 오답일 때 */
+    display: block;                  /* 보이게 */
+    background: #fde8e0;             /* 연한 주황/빨강 배경 */
+    color: #b34727;                  /* 붉은 글자 */
+}
+.quiz-feedback .ans {                /* 결과 안의 정답·설명 줄 */
+    display: block;                  /* 한 줄 차지 */
+    margin-top: 6px;                 /* 위 여백 */
+    font-weight: 400;                /* 보통 굵기 */
+    color: var(--ink);              /* 기본 글자색 */
+}
