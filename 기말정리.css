@@ -445,6 +445,19 @@ th {                                 /* 머리칸만 따로 선택 */
     border-color: var(--main);       /* 초록 테두리 */
 }
 
+/* 풀이 방식 선택 전 안내(게이트) 박스 */
+.quiz-gate {                         /* 모드 선택 유도 안내 */
+    text-align: center;             /* 가운데 정렬 */
+    background: #fff8e6;             /* 연한 노랑 배경 */
+    border: 2px dashed var(--point); /* 주황 점선 테두리 */
+    border-radius: 10px;             /* 둥근 모서리 */
+    padding: 22px;                   /* 안쪽 여백 */
+    font-weight: 800;                /* 굵게 */
+    color: var(--ink);              /* 기본 글자색 */
+    margin: 6px 0 4px;               /* 위아래 여백 */
+}
+.quiz-gate b { color: var(--point); }/* 강조어는 주황색 */
+
 /* HTML/CSS 구분 배지 (공통) */
 .quiz-kind {                         /* 문제 종류 배지 */
     display: inline-block;           /* 글자만큼 차지 */
