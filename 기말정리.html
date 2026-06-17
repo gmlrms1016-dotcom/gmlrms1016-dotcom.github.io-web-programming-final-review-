@@ -1020,7 +1020,7 @@ p    { overflow: scroll; }      /* 넘치면 스크롤바 */</code></pre>
     // 띄어쓰기·세미콜론·대소문자는 채점 시 무시됩니다.
     const quizData = [
       // ===== HTML 기초 =====
-      {cat:'HTML기초', q:'HTML5 문서임을 맨 윗줄에 <b>선언</b>하는 코드는?', a:['<!doctype html>','doctype html'], hint:'느낌표(!)로 시작하는 한 줄', explain:'모든 HTML 문서의 첫 줄에 적습니다.'},
+      {cat:'HTML기초', q:'HTML5 문서임을 맨 윗줄에 <b>선언</b>하는 코드는?', a:['<!DOCTYPE html>','<!doctype html>','doctype html'], hint:'느낌표(!)로 시작하는 한 줄', explain:'모든 HTML 문서의 첫 줄에 적습니다.'},
       {cat:'HTML기초', q:'<b>한글이 안 깨지게</b> head에 넣는 meta의 글자 인코딩 값은?', a:['utf-8','charset="utf-8"','charset=utf-8'], hint:'요즘 표준 인코딩', explain:'<meta charset="UTF-8"> 로 지정합니다.'},
       {cat:'HTML기초', q:'설정이 들어가는, <b>화면에 안 보이는</b> 영역 태그는?', a:['head','<head>'], hint:'머리 부분', explain:'head에는 meta, title, link 등이 들어갑니다.'},
       {cat:'HTML기초', q:'<b>화면에 보이는</b> 내용이 들어가는 태그는?', a:['body','<body>'], hint:'몸통', explain:'실제 콘텐츠는 모두 body 안에 씁니다.'},
@@ -1162,6 +1162,8 @@ p    { overflow: scroll; }      /* 넘치면 스크롤바 */</code></pre>
 
     // 입력값/정답을 비교하기 좋게 다듬기: 소문자 + 공백제거 + 끝 세미콜론 제거
     function norm(s){ return s.toLowerCase().replace(/\s+/g,'').replace(/;+$/,''); }
+    // 코드(< > &)를 화면에 글자 그대로 보여주기 위한 이스케이프
+    function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
     // 문제가 HTML 문제인지 CSS 문제인지 분야로 판단 (공통 요구사항)
     const HTML_CATS = ['HTML기초','텍스트','목록','표','링크·이미지','폼'];
@@ -1212,8 +1214,8 @@ p    { overflow: scroll; }      /* 넘치면 스크롤바 */</code></pre>
       const i = +card.dataset.i;
       const item = quizData[i];
       const fb = card.querySelector('.quiz-feedback');
-      if(act === 'hint'){ fb.className = 'quiz-feedback no'; fb.innerHTML = '💡 힌트: ' + item.hint; return; }
-      if(act === 'show'){ fb.className = 'quiz-feedback ok'; fb.innerHTML = '📌 정답: <b>' + item.a[0] + '</b><span class="ans">' + item.explain + '</span>'; return; }
+      if(act === 'hint'){ fb.className = 'quiz-feedback no'; fb.innerHTML = '💡 힌트: ' + esc(item.hint); return; }
+      if(act === 'show'){ fb.className = 'quiz-feedback ok'; fb.innerHTML = '📌 정답(그대로 입력하면 정답): <code class="ans-code">' + esc(item.a[0]) + '</code><span class="ans">' + esc(item.explain) + '</span>'; return; }
       // 채점
       const val = card.querySelector('input').value;
       if(norm(val) === ''){ fb.className='quiz-feedback no'; fb.innerHTML='✏️ 답을 입력해 주세요.'; return; }
@@ -1221,8 +1223,8 @@ p    { overflow: scroll; }      /* 넘치면 스크롤바 */</code></pre>
       if(ok){
         solved[i] = true;
         fb.className = 'quiz-feedback ok';
-        const more = card.closest('#single-area') ? ' <b>다음 문제 ▶</b>를 누르세요.' : '';
-        fb.innerHTML = '✅ 정답입니다!' + more + '<span class="ans">' + item.explain + '</span>';
+        const more = card.closest('#single-area') ? ' (Enter 또는 <b>다음 문제 ▶</b>로 넘어가기)' : '';
+        fb.innerHTML = '✅ 정답입니다!' + more + '<span class="ans">' + esc(item.explain) + '</span>';
       } else {
         fb.className = 'quiz-feedback no';
         fb.innerHTML = '❌ 다시 생각해 보세요. (힌트 버튼을 눌러보세요)';
@@ -1234,7 +1236,10 @@ p    { overflow: scroll; }      /* 넘치면 스크롤바 */</code></pre>
     function onCardKey(e){
       if(e.key !== 'Enter' || e.target.tagName !== 'INPUT') return;
       const card = e.target.closest('.quiz-item'); if(!card) return;
-      card.querySelector('button[data-act="check"]').click();
+      const i = +card.dataset.i;
+      // 옵션2(랜덤)에서 이미 정답을 맞힌 상태면, Enter 한 번 더로 다음 문제
+      if(card.closest('#single-area') && solved[i]){ renderSingle(); return; }
+      card.querySelector('button[data-act="check"]').click(); // 그 외에는 채점
     }
 
     // ===== 옵션1: 전체 문제 목록 =====

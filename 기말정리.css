@@ -549,3 +549,15 @@ th {                                 /* 머리칸만 따로 선택 */
     font-weight: 400;                /* 보통 굵기 */
     color: var(--ink);              /* 기본 글자색 */
 }
+.ans-code {                          /* '정답 보기'에 표시되는 정확한 정답 코드 */
+    display: inline-block;           /* 박스처럼 */
+    background: #fff;                /* 흰 배경 */
+    border: 1px solid var(--line);   /* 테두리 */
+    border-radius: 6px;              /* 둥근 모서리 */
+    padding: 2px 8px;                /* 안쪽 여백 */
+    margin: 0 2px;                   /* 좌우 약간 */
+    font-family: Consolas, monospace;/* 고정폭(코드) 글꼴 */
+    font-weight: 800;                /* 굵게 */
+    color: var(--green);            /* 초록 글자 */
+    user-select: all;               /* 클릭 한 번에 전체 선택 → 복사 쉽게 */
+}
