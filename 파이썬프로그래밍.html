@@ -115,7 +115,7 @@ review: 6글자</code></pre>
   <table class="ref"><tr><th>개념</th><th>설명</th></tr>
     <tr><td>split()</td><td>문자열을 <b>공백 기준</b>으로 나눠 단어 리스트 생성 (예: <code>"a b c".split()</code> → <code>['a','b','c']</code>)</td></tr>
     <tr><td>map(함수, 반복형)</td><td>각 원소에 함수를 일괄 적용. <code>map(len, words)</code> = 각 단어 길이. <code>list()</code>로 리스트화</td></tr>
-    <tr><td>zip()</td><td>여러 리스트를 <b>같은 위치끼리 묶음</b>. <code>for w, l in zip(단어들, 길이들)</code> 로 짝지어 출력</td></tr>
+    <tr><td>zip()</td><td>여러 리스트를 <b>같은 위치끼리 묶음</b>. <code>for word, length in zip(단어들, 길이들)</code> 로 짝지어 출력</td></tr>
   </table>
   <h3>풀이 (정답 코드)</h3>
   <pre><code>def calculate_word_lengths(text):       # 문자열을 받아 각 단어 길이 리스트를 반환
