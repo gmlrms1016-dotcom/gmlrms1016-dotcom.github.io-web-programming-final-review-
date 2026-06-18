@@ -108,6 +108,13 @@
         }
         .badge.done { background: var(--main); color: #fff; }
         .badge.soon { background: #eceeec; color: var(--muted); }
+        .badge.next { background: #d9772b; color: #fff; }              /* 다음(임박) 시험 */
+        .badge.fin  { background: #6b7d70; color: #fff; }              /* 끝난 시험 */
+        /* 끝난 시험 카드: 차분하게(연한 회색) + 왼쪽 강조선 */
+        .subject.fin { background: #f3f5f3; border-left: 5px solid #6b7d70; }
+        .subject.fin .name { color: #515f56; }
+        /* 임박 시험 카드: 주황 강조선 */
+        .subject.next { border-left: 5px solid var(--point); }
 
         /* '준비중' 버튼은 흐리게 표시 */
         .subject.soon { background: #f7f8f7; }
@@ -145,42 +152,44 @@
     </header>
 
     <div class="tip">
-        💡 <b>사용법</b> : 과목 버튼을 누르면 해당 과목 정리 페이지로 이동합니다.
-        <b>완료</b> 표시 과목만 열람 가능하고, <b>준비중</b> 과목은 아직 정리 중입니다.
+        💡 <b>사용법</b> : <b>시험이 임박한 순서</b>로 위에서부터 배치했고, <b>이미 끝난 시험</b>은 맨 뒤로 보냈습니다.
+        <span class="badge next">다음 시험</span> = 가장 임박 · <span class="badge done">완료</span> = 정리 열람 가능 · <span class="badge soon">준비중</span> = 정리 예정 · <span class="badge fin">시험 완료</span> = 끝난 시험(복습 모드)
     </div>
 
     <div class="subjects">
 
-        <!-- ① 웹프로그래밍 기초 (완료) → 웹프로그래밍기초.html 로 이동 -->
-        <a class="subject" href="웹프로그래밍기초.html">
-            <div class="name">웹프로그래밍 기초 <span class="badge done">완료</span></div>
-            <div class="desc">1~13주차 HTML / CSS 완전정리 + 퀴즈 (JavaScript 제외)</div>
-        </a>
+        <!-- 시험 임박 순서로 배치(웹→컴공→파이썬→프방법→SW). 끝난 시험(웹)은 맨 뒤. -->
 
-        <!-- ② 컴퓨터공학기초 (완료) → 새로 만든 컴퓨터공학기초.html 로 이동 -->
-        <a class="subject" href="컴퓨터공학기초.html">
-            <div class="name">컴퓨터공학기초 <span class="badge done">완료</span></div>
+        <!-- 1) 컴퓨터공학기초 — 다음(가장 임박) 시험, 정리 완료 → 이동 -->
+        <a class="subject next" href="컴퓨터공학기초.html">
+            <div class="name">컴퓨터공학기초 <span class="badge next">🔥 다음 시험</span> <span class="badge done">완료</span></div>
             <div class="desc">기말 시험범위 — 6장 인공지능·딥러닝 / 7장 컴퓨팅 사고력 / 9장 데이터베이스 / 10장 네트워크</div>
         </a>
 
-        <!-- ③ SW개발도구활용 (준비중) → 클릭 시 alert, 이동 없음 -->
-        <button class="subject soon" type="button"
-                onclick="alert('아직 안 만들었습니다. 곧 추가될 예정이에요!')">
-            <div class="name">SW개발도구활용 <span class="badge soon">준비중</span></div>
-            <div class="desc">아직 정리하지 않은 과목입니다.</div>
-        </button>
+        <!-- 2) 파이썬프로그래밍 — 예정 시험, 정리 완료 → 이동 -->
+        <a class="subject" href="파이썬프로그래밍.html">
+            <div class="name">파이썬프로그래밍 <span class="badge done">완료</span></div>
+            <div class="desc">기말 PB(실기) 4문제 풀이 — match-case / map·zip / turtle / try·except·random + 빈칸채우기</div>
+        </a>
 
-        <!-- ④ 프로그래밍방법론 (준비중) -->
+        <!-- 3) 프로그래밍방법론 — 예정 시험, 준비중 -->
         <button class="subject soon" type="button"
                 onclick="alert('아직 안 만들었습니다. 곧 추가될 예정이에요!')">
             <div class="name">프로그래밍방법론 <span class="badge soon">준비중</span></div>
             <div class="desc">아직 정리하지 않은 과목입니다.</div>
         </button>
 
-        <!-- ⑤ 파이썬프로그래밍 (완료) → 파이썬프로그래밍.html 로 이동 -->
-        <a class="subject" href="파이썬프로그래밍.html">
-            <div class="name">파이썬프로그래밍 <span class="badge done">완료</span></div>
-            <div class="desc">기말 PB(실기) 4문제 풀이 — match-case / map·zip / turtle / try·except·random + 빈칸채우기</div>
+        <!-- 4) SW개발도구활용 — 예정 시험, 준비중 -->
+        <button class="subject soon" type="button"
+                onclick="alert('아직 안 만들었습니다. 곧 추가될 예정이에요!')">
+            <div class="name">SW개발도구활용 <span class="badge soon">준비중</span></div>
+            <div class="desc">아직 정리하지 않은 과목입니다.</div>
+        </button>
+
+        <!-- 5) 웹프로그래밍 기초 — 시험 끝남(맨 뒤) → 복습 모드(?done=1) -->
+        <a class="subject fin" href="웹프로그래밍기초.html?done=1">
+            <div class="name">웹프로그래밍 기초 <span class="badge fin">✅ 시험 완료</span></div>
+            <div class="desc">🎉 시험 끝! 복습 모드 — 정답·해설이 모두 공개됩니다 (HTML/CSS 정리 + 퀴즈)</div>
         </a>
 
     </div>

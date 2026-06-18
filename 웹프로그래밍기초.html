@@ -1333,6 +1333,31 @@ p    { overflow: scroll; }      /* 넘치면 스크롤바 */</code></pre>
 
     updateScore();      // 점수판 텍스트 초기화
     showGate();         // 처음엔 풀이 방식을 먼저 선택해야 퀴즈가 시작됨
+
+    // ===== [복습 완료 모드] ?done=1 (과목선택에서 '웹' 클릭 시): 시험 끝 → 정답·해설 모두 공개 =====
+    if (/[?&]done=1/.test(location.search)) {
+      window.__finished = true;
+      // 상단 '수고하셨습니다' 배너
+      var _wrap = document.querySelector('.wrap');
+      if (_wrap && !document.getElementById('done-banner')) {
+        var _bn = document.createElement('div');
+        _bn.id = 'done-banner';
+        _bn.style.cssText = 'background:#2d6a4f;color:#fff;padding:16px 18px;border-radius:12px;margin:0 0 18px;line-height:1.65;';
+        _bn.innerHTML = '🎉 <b>수고하셨습니다!</b> 웹프로그래밍 기초 시험은 <b>끝났어요.</b><br>' +
+                        '아래 퀴즈는 <b>정답이 모두 입력되고 해설이 모두 표시된 복습 모드</b>입니다.';
+        _wrap.insertBefore(_bn, _wrap.children[1] || null);   // 뒤로가기 링크 다음
+      }
+      // 태그 퀴즈: 목록 모드로 전환 후 전 문항 정답 입력 + 채점(✅ + 해설)
+      setMode('list');
+      var _lb = modeBar.querySelector('button[data-mode="list"]'); if (_lb) _lb.classList.add('active');
+      Array.prototype.forEach.call(listEl.querySelectorAll('.quiz-item'), function (card) {
+        var i = +card.dataset.i;
+        var inp = card.querySelector('input');
+        if (inp) { inp.value = quizData[i].a[0]; inp.readOnly = true; }
+        var cb = card.querySelector('button[data-act="check"]');
+        if (cb) cb.click();
+      });
+    }
     </script>
     <!-- ↑↑↑ 퀴즈 채점 엔진 끝 ↑↑↑ -->
 
@@ -1488,6 +1513,7 @@ p    { overflow: scroll; }      /* 넘치면 스크롤바 */</code></pre>
           var navBar = document.getElementById('cq-nav');
           var solved = new Array(Q.length).fill(false);
           var cur = 0;
+          var FIN = /[?&]done=1/.test(location.search);   // 복습 완료 모드
 
           function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
           function norm(s){ return s.toLowerCase().replace(/\s+/g,'').replace(/;+$/,''); }
@@ -1517,7 +1543,8 @@ p    { overflow: scroll; }      /* 넘치면 스크롤바 */</code></pre>
                 '<div class="quiz-feedback"></div>' +
               '</div>';
             updateScore();
-            var f = stage.querySelector('.cq-blank'); if(f) f.focus();
+            if (FIN) { var _sb = stage.querySelector('button[data-act="show"]'); if (_sb) _sb.click(); }
+            else { var f = stage.querySelector('.cq-blank'); if(f) f.focus(); }
           }
 
           stage.addEventListener('click', function(e){
