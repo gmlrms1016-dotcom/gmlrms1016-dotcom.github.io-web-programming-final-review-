@@ -1165,8 +1165,10 @@ p    { overflow: scroll; }      /* 넘치면 스크롤바 */</code></pre>
     // 코드(< > &)를 화면에 글자 그대로 보여주기 위한 이스케이프
     function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
     // [복습용] 틀린/정답보기한 문제를 review.js가 읽는 전역 저장소에 기록·삭제
-    function plainTxt(s){ return String(s).replace(/<[^>]+>/g,'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&'); }
-    function reportWeb(i){ (window.__examWrong=window.__examWrong||{})['web'+i] = {q: plainTxt(quizData[i].q), opts: [], ans: '정답: ' + plainTxt(quizData[i].a[0]) + ' — ' + plainTxt(quizData[i].explain)}; }
+    function decodeEnt(s){ return String(s).replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&'); }
+    function plainTxt(s){ return decodeEnt(String(s).replace(/<[^>]+>/g,'')); }   // 질문: 서식태그(<b>등) 제거 + 엔티티 복원
+    // 답안·해설은 <p>·<!DOCTYPE html> 등 태그 자체가 정답일 수 있으므로 태그를 지우지 않고 엔티티만 복원
+    function reportWeb(i){ (window.__examWrong=window.__examWrong||{})['web'+i] = {q: plainTxt(quizData[i].q), opts: [], ans: '정답: ' + decodeEnt(quizData[i].a[0]) + ' — ' + decodeEnt(quizData[i].explain)}; }
     function clearWeb(i){ if(window.__examWrong) delete window.__examWrong['web'+i]; }
 
     // 문제가 HTML 문제인지 CSS 문제인지 분야로 판단 (공통 요구사항)
