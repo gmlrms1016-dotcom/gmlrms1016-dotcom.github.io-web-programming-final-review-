@@ -1,6 +1,7 @@
 <!-- ===================================================================== -->
 <!-- 파이썬프로그래밍 · 기말(PB 실기) 완전정리                              -->
 <!-- 시험범위: 15주차 PB 기말고사 4문제 (grade / lengths / turtlestar / locker) -->
+<!-- 풀이 코드는 15주차 (답지).py = 교수님 의도 정답 기준                     -->
 <!-- 디자인은 웹·컴공 페이지와 동일한 style.css 재사용                       -->
 <!-- ===================================================================== -->
 
@@ -34,13 +35,13 @@
 
     <div class="tip">
         📖 <b>이 페이지 보는 법</b> : 각 문제는 ① <b>문제 지문</b> → ② <b>출력 결과</b> → ③ <b>핵심 개념</b> →
-        ④ <b>풀이(정답 코드)</b> 순서입니다. 맨 아래 <b>📝 빈칸채우기</b>로 핵심 문법을 점검하세요.
+        ④ <b>풀이(정답 코드)</b> 순서입니다. 풀이는 15주차 <b>(답지).py(교수님 정답)</b> 기준이며, 맨 아래 <b>📝 빈칸채우기</b>로 핵심 문법을 점검하세요.
     </div>
 
     <nav class="toc">
         <a href="#p1">01 grade (학점)</a>
         <a href="#p2">02 lengths (단어길이)</a>
-        <a href="#p3">03 turtlestar (별)</a>
+        <a href="#p3">03 turtle (사각형)</a>
         <a href="#p4">04 locker (사물함)</a>
         <a href="#quiz" style="background:#d9772b;color:#fff;">📝 빈칸채우기</a>
     </nav>
@@ -58,26 +59,28 @@
 유효하지 않은 입력입니다. 숫자를 입력해주세요.</code></pre>
   <h3>핵심 개념</h3>
   <table class="ref"><tr><th>개념</th><th>설명</th></tr>
-    <tr><td>match-case</td><td>파이썬 3.10+ 분기 구문. <code>case _ if 조건:</code> 형태의 <b>가드(guard)</b>로 범위 조건을 검사</td></tr>
+    <tr><td>match-case</td><td>파이썬 3.10+ 분기 구문. <b>답지</b>는 점수를 <code>str(score).zfill(2)[0]</code>(2자리 문자열로 만든 뒤 맨 앞 자리)로 바꿔 <code>case "9"</code>처럼 분기. 100점은 <code>case "1" if score==100</code>으로 처리</td></tr>
     <tr><td>타입 힌트</td><td><code>def get_grade(score: int):</code> 처럼 매개변수 자료형을 표기(강제는 아님)</td></tr>
     <tr><td>입력 검증</td><td><code>score.isdigit()</code>로 숫자인지 확인 후 <code>int()</code> 변환, <code>0 &lt;= score &lt;= 100</code> 범위 검사</td></tr>
   </table>
   <h3>풀이 (정답 코드)</h3>
-  <pre><code>def get_grade(score: int):              # 점수(int 타입 힌트)를 받아 학점 문자열을 반환
-    match score:                        # score 값으로 분기 (match-case, 파이썬 3.10+)
-        case _ if 90 &lt;= score &lt;= 100:   # 90~100 → A+
+  <pre><code>def get_grade(score: int):                 # 점수(int 타입 힌트)를 받아 학점 문자열 반환
+    match str(score).zfill(2)[0]:          # 점수를 2자리 문자열로 만든 뒤 &#x27;맨 앞 자리&#x27;로 분기
+        case &quot;9&quot;:                          # 90~99 → A+
             return &quot;A+&quot;
-        case _ if 80 &lt;= score &lt; 90:     # 80~89 → A
+        case &quot;8&quot;:                          # 80~89 → A
             return &quot;A&quot;
-        case _ if 70 &lt;= score &lt; 80:     # 70~79 → B+
+        case &quot;7&quot;:                          # 70~79 → B+
             return &quot;B+&quot;
-        case _ if 60 &lt;= score &lt; 70:     # 60~69 → B
+        case &quot;6&quot;:                          # 60~69 → B
             return &quot;B&quot;
-        case _ if 50 &lt;= score &lt; 60:     # 50~59 → C+
+        case &quot;5&quot;:                          # 50~59 → C+
             return &quot;C+&quot;
-        case _ if 40 &lt;= score &lt; 50:     # 40~49 → C
+        case &quot;4&quot;:                          # 40~49 → C
             return &quot;C&quot;
-        case _:                         # 나머지(40 미만) → F
+        case &quot;1&quot; if score == 100:          # 앞자리 &#x27;1&#x27;이면서 정확히 100점 → A+
+            return &quot;A+&quot;
+        case _:                            # 나머지(0~39 등) → F
             return &quot;F&quot;
 
 
@@ -132,15 +135,16 @@ for word, length in zip(input_text.split(), word_lengths):  # 단어·길이를 
 </section>
 
 <section class="card" id="p3">
-  <h2>03. turtle로 별 6개 임의 위치·색칠 (random)<span class="week chap">turtlestar_학번</span></h2>
-  <div class="tip">📄 <b>문제</b> : 모듈 <b>turtle</b>로 임의의 위치에 <b>별 6개</b>를 그리고, 리스트에 지정한 색으로 각각 다르게 칠하는 프로그램을 작성하시오.</div>
+  <h2>03. turtle로 사각형 임의 위치·색칠 (random)<span class="week chap">turtlestar_학번</span></h2>
+  <div class="tip">📄 <b>문제</b> : 모듈 <b>turtle</b>로 임의의 위치에 <b>사각형</b>을 그리고, 리스트에 지정한 색으로 각각 다르게 칠하는 프로그램을 작성하시오. 그릴 개수(1~6)를 입력받는다.</div>
   <p style="font-size:14px;">▸ 색상 <code>color = [red, orange, yellow, green, blue, magenta]</code> · 모양 거북이 · 창 600×600 · 속도 3 · 한 변 100픽셀</p>
   <h3>핵심 개념</h3>
   <table class="ref"><tr><th>개념</th><th>설명</th></tr>
+    <tr><td>입력 범위 검증</td><td><code>while True</code> + <code>if 1 &lt;= count &lt;= 6</code> 로 1~6 정상 범위만 통과(아니면 다시 입력)</td></tr>
     <tr><td>random.randint(a, b)</td><td>a~b 사이 <b>무작위 정수</b>. <code>random.randint(-200, 200)</code>로 x·y 좌표 생성</td></tr>
     <tr><td>펜 제어 pu()/pd()</td><td><code>pu()</code>(=penup) 펜 올려 이동(자국 X), <code>pd()</code>(=pendown) 펜 내려 그리기</td></tr>
     <tr><td>채우기 fillcolor/begin_fill/end_fill</td><td><code>fillcolor(색)</code>로 색 지정 후 <code>begin_fill()</code>…<code>end_fill()</code> 사이 도형을 색칠</td></tr>
-    <tr><td>별 모양</td><td>한 변 100픽셀, <code>forward(100)</code> 후 <code>right(144)</code>를 <b>5번</b> 반복하면 5각 별 ★</td></tr>
+    <tr><td>사각형 그리기</td><td>한 변 100픽셀, <code>forward(100)</code> 후 <code>left(90)</code>를 <b>4번</b> 반복 → 정사각형 ■</td></tr>
   </table>
   <h3>풀이 (정답 코드)</h3>
   <pre><code>import turtle as t
@@ -148,11 +152,20 @@ import random
 
 color = [&quot;red&quot;, &quot;orange&quot;, &quot;yellow&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;magenta&quot;]  # 색상 6개
 
+while True:                              # 올바른 개수가 들어올 때까지 반복
+    count = int(input(&quot;몇개?(1~6범위 입력)&quot;))
+    if 1 &lt;= count &lt;= 6:                  # 1~6 정상 범위면
+        print(&quot;정상범위 입니다. 프로그램을 실행합니다.&quot;)
+        break                           # 반복 탈출
+    else:                               # 범위 밖이면
+        print(&quot;비정상범위 입니다. 다시 입력 부탁드립니다.\n&quot;)
+        continue                        # 다시 입력받기
+
 t.shape(&quot;turtle&quot;)          # 모양: 거북이
 t.setup(600, 600)          # 그래픽 창 600x600
 t.speed(3)                 # 속도 3
 
-for i in range(6):                       # 별 6개 반복
+for i in range(count):                   # 입력한 개수만큼 반복
     x = random.randint(-200, 200)        # 무작위 x좌표 (-200~200)
     y = random.randint(-200, 200)        # 무작위 y좌표
     t.pu()                               # 펜 올리기(이동 자국 X)
@@ -161,13 +174,13 @@ for i in range(6):                       # 별 6개 반복
 
     t.fillcolor(color[i])                # i번째 색을 채우기 색으로
     t.begin_fill()                       # 채우기 시작
-    for _ in range(5):                   # 별(★) 한 변씩 5번
+    for _ in range(4):                   # 사각형: 네 변 반복
         t.forward(100)                   # 한 변 100픽셀 전진
-        t.right(144)                     # 144도 회전 → 별 모양
+        t.left(90)                       # 90도 회전
     t.end_fill()                         # 채우기 끝
 
 t.done()                                 # 창 유지</code></pre>
-  <div class="tip">💡 시험지는 <b>별(★)</b>이라 위는 <code>range(5)</code>+<code>right(144)</code>로 그렸습니다. 만약 <b>사각형</b>이면 안쪽 반복을 <code>for _ in range(4): forward(100); left(90)</code> 로 바꾸면 됩니다. 그릴 개수를 입력받으려면 <code>count=int(input())</code> + 1~6 범위 검증 후 <code>range(count)</code>.</div>
+  <div class="tip">⚠️ 시험지 PDF 지문은 <b>‘별 6개’</b>지만, <b>답지(교수님 정답)</b>는 <b>사각형</b>으로 구현되어 있어 <b>답지 기준</b>으로 작성했습니다. 만약 별(★)로 그리려면 안쪽 반복을 <code>for _ in range(5): forward(100); right(144)</code> 로 바꾸면 됩니다.</div>
 </section>
 
 <section class="card" id="p4">
