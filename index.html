@@ -1,11 +1,11 @@
 <!-- ===================================================================== -->
 <!-- 전공 기말 완전정리 · 과목 선택 허브(index)                              -->
 <!-- exam-summary 첫 화면: 전공 5과목을 버튼으로 선택                        -->
-<!--  · 웹프로그래밍 기초  → 웹프로그래밍기초.html (기존, 완료)               -->
-<!--  · 컴퓨터공학기초     → 컴퓨터공학기초.html (완료)                      -->
-<!--  · 파이썬프로그래밍   → 파이썬프로그래밍.html (완료)                    -->
-<!--  · 프로그래밍방법론   → 프로그래밍방법론.html (완료)                    -->
-<!--  · SW개발도구활용     → alert(아직 안 만들었습니다)                     -->
+<!--  · 프로그래밍방법론   → 프로그래밍방법론.html (예정, 06-22)              -->
+<!--  · SW개발도구활용     → SW개발도구활용.html (예정, 06-22)               -->
+<!--  · 컴퓨터공학기초     → 컴퓨터공학기초.html?done=1 (시험 완료·복습)      -->
+<!--  · 파이썬프로그래밍   → 파이썬프로그래밍.html?done=1 (시험 완료·복습)    -->
+<!--  · 웹프로그래밍 기초  → 웹프로그래밍기초.html?done=1 (시험 완료·복습)    -->
 <!-- ===================================================================== -->
 
 <!DOCTYPE html>
@@ -165,32 +165,31 @@
 
     <div class="subjects">
 
-        <!-- 시험 임박 순서로 배치(웹→컴공→파이썬→프방법→SW). 끝난 시험(웹)은 맨 뒤. -->
+        <!-- 시험 임박 순서로 배치. 끝난 시험(컴공·파이썬·웹)은 맨 뒤로 + 복습 모드(?done=1). -->
 
-        <!-- 1) 컴퓨터공학기초 — 다음(가장 임박) 시험, 정리 완료 → 이동 -->
-        <a class="subject next" href="컴퓨터공학기초.html">
-            <div class="name">컴퓨터공학기초 <span class="countdown" data-exam="2026-06-19T10:00:00"></span></div>
-            <div class="desc">기말 시험범위 — 6장 인공지능·딥러닝 / 7장 컴퓨팅 사고력 / 9장 데이터베이스 / 10장 네트워크</div>
-        </a>
-
-        <!-- 2) 파이썬프로그래밍 — 예정 시험, 정리 완료 → 이동 -->
-        <a class="subject next" href="파이썬프로그래밍.html">
-            <div class="name">파이썬프로그래밍 <span class="countdown" data-exam="2026-06-19T14:00:00"></span></div>
-            <div class="desc">기말 PB(실기) 4문제 풀이 — match-case / map·zip / turtle / try·except·random + 빈칸채우기</div>
-        </a>
-
-        <!-- 3) 프로그래밍방법론 — 예정 시험, 정리 완료 → 이동 -->
+        <!-- 1) 프로그래밍방법론 — 다음(가장 임박) 시험, 정리 완료 → 이동 -->
         <a class="subject next" href="프로그래밍방법론.html">
             <div class="name">프로그래밍방법론 <span class="countdown" data-exam="2026-06-22T10:00:00"></span></div>
             <div class="desc">순서도(Flowgorithm)→파이썬 — 선택구조 / 반복구조 / 함수·재귀 / 클래스 (코드 직접 실행·채점)</div>
         </a>
 
-        <!-- 4) SW개발도구활용 — 예정 시험, 준비중 -->
-        <button class="subject soon" type="button"
-                onclick="alert('아직 안 만들었습니다. 곧 추가될 예정이에요!')">
-            <div class="name">SW개발도구활용 <span class="countdown" data-exam="2026-06-22T14:00:00"></span> <span class="badge soon">준비중</span></div>
-            <div class="desc">아직 정리하지 않은 과목입니다.</div>
-        </button>
+        <!-- 2) SW개발도구활용 — 예정 시험, 정리 완료 → 이동 -->
+        <a class="subject next" href="SW개발도구활용.html">
+            <div class="name">SW개발도구활용 <span class="countdown" data-exam="2026-06-22T14:00:00"></span></div>
+            <div class="desc">13주차 Git 집중정리 — 버전관리 개념 / add·commit·push / branch·merge / 명령어 + 퀴즈</div>
+        </a>
+
+        <!-- 3) 컴퓨터공학기초 — 시험 끝남 → 복습 모드(?done=1) -->
+        <a class="subject fin" href="컴퓨터공학기초.html?done=1">
+            <div class="name">컴퓨터공학기초 <span class="badge fin">✅ 시험 완료</span></div>
+            <div class="desc">🎉 시험 끝! 복습 모드 — 정답·해설이 모두 공개됩니다 (6장 AI / 7장 컴퓨팅사고력 / 9장 DB / 10장 네트워크)</div>
+        </a>
+
+        <!-- 4) 파이썬프로그래밍 — 시험 끝남 → 복습 모드(?done=1) -->
+        <a class="subject fin" href="파이썬프로그래밍.html?done=1">
+            <div class="name">파이썬프로그래밍 <span class="badge fin">✅ 시험 완료</span></div>
+            <div class="desc">🎉 시험 끝! 복습 모드 — 정답 코드가 모두 펼쳐집니다 (PB 실기 4문제 + 코드 실행기)</div>
+        </a>
 
         <!-- 5) 웹프로그래밍 기초 — 시험 끝남(맨 뒤) → 복습 모드(?done=1) -->
         <a class="subject fin" href="웹프로그래밍기초.html?done=1">

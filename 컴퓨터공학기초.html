@@ -1618,5 +1618,37 @@ SELECT * FROM course;</code></pre>
   });
 })();
 </script>
+<!-- [복습 완료 모드] ?done=1 : 시험 끝 → 배너 + 모든 객관식/빈칸 정답·해설 공개 -->
+<script>
+(function(){
+  if(!/[?&]done=1/.test(location.search)) return;
+  var wrap = document.querySelector('.wrap');
+  if(wrap && !document.getElementById('done-banner')){
+    var bn = document.createElement('div');
+    bn.id = 'done-banner';
+    bn.style.cssText = 'background:#176c3a;color:#fff;border-radius:12px;padding:16px 18px;margin:0 0 18px;font-weight:800;text-align:center;line-height:1.6;';
+    bn.innerHTML = '🎉 시험 종료 · <b>복습 모드</b><br><span style="font-weight:600;font-size:14px;color:#d8efe2;">모든 객관식·빈칸의 정답과 해설이 공개됩니다.</span>';
+    wrap.insertBefore(bn, wrap.firstChild.nextSibling);
+  }
+  // 객관식: 아직 안 푼 문항에 정답 표시 + 해설 공개
+  document.querySelectorAll('.mcq').forEach(function(q){
+    if(q.classList.contains('answered')) return;          // 이미 푼/제외 문항은 그대로
+    q.classList.add('answered');
+    var correct = q.dataset.correct;
+    q.querySelectorAll('.opt').forEach(function(b){ if(b.dataset.opt===correct) b.classList.add('correct'); });
+    var exp = q.querySelector('.mcq-exp'); if(exp) exp.style.display='block';
+  });
+  // 빈칸채우기/주관식: 정답 채워넣고 해결 처리 + 정답·해설 표시
+  document.querySelectorAll('.quiz-item').forEach(function(item){
+    if(item.dataset.solved==='1') return;                 // 제외문항 등 이미 처리된 건 건너뜀
+    var ans = (item.dataset.answers||'').split('|')[0];
+    var inp = item.querySelector('input'); if(inp){ inp.value = ans; inp.readOnly = true; }
+    item.dataset.solved = '1'; item.dataset.wrong = '';
+    var fb = item.querySelector('.quiz-feedback');
+    if(fb){ fb.className='quiz-feedback ok';
+      fb.innerHTML = '✅ 정답: <b>'+ans+'</b>' + (item.dataset.full ? ' <span class="ans">'+item.dataset.full+'</span>' : ''); }
+  });
+})();
+</script>
 </body>
 </html>

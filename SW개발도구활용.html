@@ -1,0 +1,426 @@
+<!-- ===================================================================== -->
+<!-- SW개발도구활용 · 기말 완전정리 — 13주차 Git 집중정리                      -->
+<!-- 시험범위: Lecture 13 Git (기본 흐름·명령어·브랜치/병합/리베이스·실습 1~4) -->
+<!-- 코드 실행기 없음(개발도구 과목) · 개념정리 + 명령어 + 퀴즈               -->
+<!-- ===================================================================== -->
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SW개발도구활용 기말 완전정리 · Git</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .back-link { display:inline-block; margin-bottom:14px; color:var(--main); font-weight:800; text-decoration:none; font-size:14px; }
+        .back-link:hover { text-decoration:underline; }
+        .chap { background:#2f6f8f; }                 /* SW(Git) = 청록 포인트 */
+
+        /* 터미널 명령 블록 */
+        pre.cmd { background:#0f1b14; color:#dff5e6; border-radius:9px; padding:12px 14px; margin:10px 0;
+                  font-family:Consolas,"D2Coding",monospace; font-size:13px; line-height:1.65; overflow-x:auto; white-space:pre; }
+        pre.cmd .c { color:#85b79d; }                 /* 주석/설명 */
+        pre.cmd .p { color:#7fd49a; font-weight:700; } /* 프롬프트 $ */
+        code.k { background:#eef3f7; color:#234; border:1px solid #cfdce6; border-radius:5px; padding:1px 6px; font-family:Consolas,"D2Coding",monospace; font-size:.92em; }
+
+        /* Git 4영역 흐름 다이어그램 */
+        .git-flow { width:100%; max-width:900px; height:auto; display:block; margin:10px auto; background:#fbfcff; border:1px solid var(--line); border-radius:12px; }
+
+        /* 실습 시나리오 카드 */
+        .scn { border:1px solid var(--line); border-radius:10px; background:#fbfdfb; margin:12px 0; }
+        .scn > summary { cursor:pointer; font-weight:800; color:var(--main); padding:12px 15px; font-size:15px; }
+        .scn[open] > summary { border-bottom:1px solid var(--line); }
+        .scn > div { padding:6px 15px 14px; }
+        .scn ol { margin:8px 0 8px 20px; font-size:14px; line-height:1.7; }
+
+        /* 객관식(컴공과 동일 스타일) */
+        .mcq { border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin:12px 0; background:#fff; }
+        .mcq-q { font-weight:700; margin:0 0 10px; line-height:1.6; }
+        .mcq-no { display:inline-block; min-width:26px; height:24px; line-height:24px; text-align:center; background:var(--main); color:#fff; border-radius:6px; font-size:13px; margin-right:8px; }
+        .opt { display:block; width:100%; text-align:left; font-family:inherit; font-size:14px; line-height:1.55; background:#f7f9f7; border:1px solid var(--line); border-radius:8px; padding:9px 12px; margin:6px 0; cursor:pointer; transition:background .12s, border-color .12s; }
+        .opt:hover { border-color:var(--main); background:#eef5ef; }
+        .opt b { color:var(--main); margin-right:4px; }
+        .mcq.answered .opt { cursor:default; }
+        .opt.correct { background:#e7f6ec; border-color:var(--main); color:#176c3a; font-weight:700; }
+        .opt.correct::after { content:"  ✓ 정답"; color:var(--main); font-weight:900; font-size:12px; }
+        .opt.wrong { background:#fdecec; border-color:#d9534f; color:#a32f2b; }
+        .opt.wrong::after { content:"  ✗"; color:#d9534f; font-weight:900; }
+        .mcq-exp { display:none; margin-top:10px; padding:10px 12px; background:#fff8e6; border-left:4px solid var(--point); border-radius:6px; font-size:13.5px; line-height:1.6; }
+        .mcq-exp b { color:var(--point); }
+        .qz-wrap { margin:6px 0 4px; }
+        #quiz-score { font-weight:800; color:var(--main); margin:4px 0 12px; }
+    </style>
+</head>
+
+<body>
+<div class="wrap">
+
+    <a class="back-link" href="index.html">← 과목 선택으로 돌아가기</a>
+
+    <header class="page-head">
+        <h1>SW개발도구활용 · 기말 완전정리</h1>
+        <p>시험범위 : 13주차 Git — 버전관리 흐름 · 명령어 · 브랜치/병합/리베이스 · 실습 1~4</p>
+    </header>
+
+    <div class="tip">
+        🧰 <b>이 과목 기말의 핵심은 Git</b>입니다. 아래에서 <b>Git의 4영역 흐름</b>을 그림으로 잡고,
+        <b>명령어 레퍼런스</b>와 <b>실습 1~4 시나리오</b>를 따라가며, <b>merge·rebase·squash·PR</b>의 차이를 정리하세요.
+        맨 아래 <b>퀴즈</b>로 점검할 수 있습니다.
+    </div>
+
+    <nav class="toc">
+        <a href="#flow">📦 Git 4영역 흐름</a>
+        <a href="#cmd">⌨️ 명령어 레퍼런스</a>
+        <a href="#scn">🧪 실습 1~4</a>
+        <a href="#concept">🔑 핵심 개념</a>
+        <a href="#quiz">📝 퀴즈</a>
+    </nav>
+
+<!-- ===================== Git 4영역 흐름 ===================== -->
+<section class="card" id="flow">
+  <h2>📦 Git 소스 관리 기본 흐름<span class="week chap">13주 · 핵심</span></h2>
+  <p style="font-size:14px;"><b>작업 디렉토리 → 스테이징 영역(Index) → 지역(로컬) 저장소 → 원격 저장소</b> 4단계로 흐릅니다.
+     각 단계 사이를 옮기는 명령어를 외우는 게 핵심이에요.</p>
+
+  <svg class="git-flow" viewBox="0 0 900 250" xmlns="http://www.w3.org/2000/svg" font-family="'맑은 고딕',Arial,sans-serif">
+    <defs>
+      <marker id="ga" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2f6f8f"/></marker>
+      <marker id="gb" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#9a7ab0"/></marker>
+    </defs>
+    <style>
+      .bx { fill:#eaf3f7; stroke:#2f6f8f; stroke-width:1.6; }
+      .bt { fill:#1d3a48; font-weight:800; font-size:15px; text-anchor:middle; }
+      .bs { fill:#5b7682; font-size:11.5px; text-anchor:middle; }
+      .fa { stroke:#2f6f8f; stroke-width:1.8; fill:none; marker-end:url(#ga); }
+      .fl { fill:#2f6f8f; font-weight:800; font-size:12.5px; text-anchor:middle; }
+      .ba { stroke:#9a7ab0; stroke-width:1.8; fill:none; marker-end:url(#gb); stroke-dasharray:5 4; }
+      .bl { fill:#7a5a96; font-weight:800; font-size:12px; text-anchor:middle; }
+    </style>
+    <!-- 박스 4개 -->
+    <rect class="bx" x="15"  y="78" width="170" height="60" rx="8"/>
+    <text class="bt" x="100" y="103">작업 디렉토리</text><text class="bs" x="100" y="123">Working Dir</text>
+    <rect class="bx" x="245" y="78" width="170" height="60" rx="8"/>
+    <text class="bt" x="330" y="103">스테이징 영역</text><text class="bs" x="330" y="123">Index</text>
+    <rect class="bx" x="475" y="78" width="170" height="60" rx="8"/>
+    <text class="bt" x="560" y="103">지역 저장소</text><text class="bs" x="560" y="123">Local Repo (.git)</text>
+    <rect class="bx" x="705" y="78" width="180" height="60" rx="8"/>
+    <text class="bt" x="795" y="103">원격 저장소</text><text class="bs" x="795" y="123">Remote (GitHub)</text>
+    <!-- 앞으로 흐름 -->
+    <path class="fa" d="M185,108 L243,108"/><text class="fl" x="214" y="68">git add</text>
+    <path class="fa" d="M415,108 L473,108"/><text class="fl" x="444" y="68">git commit</text>
+    <path class="fa" d="M645,108 L703,108"/><text class="fl" x="674" y="68">git push</text>
+    <!-- 되돌아오는 흐름(pull / clone) -->
+    <path class="ba" d="M795,138 L795,185 L560,185 L560,140"/><text class="bl" x="678" y="203">git pull (원격 → 지역)</text>
+    <path class="ba" d="M795,138 L795,225 L100,225 L100,140"/><text class="bl" x="300" y="243">git clone (원격 → 작업 디렉토리, 새 로컬 생성)</text>
+  </svg>
+  <table class="ref"><tr><th>흐름</th><th>명령어</th><th>설명</th></tr>
+    <tr><td>작업 → 스테이징</td><td><code>git add</code></td><td>변경 파일을 커밋 후보(Index)에 올림</td></tr>
+    <tr><td>스테이징 → 지역</td><td><code>git commit -m</code></td><td>올린 변경을 하나의 커밋으로 저장</td></tr>
+    <tr><td>지역 → 원격</td><td><code>git push</code></td><td>로컬 커밋을 GitHub에 업로드</td></tr>
+    <tr><td>원격 → 지역</td><td><code>git pull</code></td><td>원격 변경을 가져와 병합</td></tr>
+    <tr><td>원격 → 새 로컬</td><td><code>git clone</code></td><td>원격을 통째로 복제해 새 저장소 생성</td></tr>
+  </table>
+</section>
+
+<!-- ===================== 명령어 레퍼런스 ===================== -->
+<section class="card" id="cmd">
+  <h2>⌨️ 명령어 레퍼런스 (오늘 쓴 명령어 전체)<span class="week chap">암기</span></h2>
+
+  <h3>① 시작 · 상태 확인</h3>
+  <table class="ref"><tr><th>명령어</th><th>설명</th></tr>
+    <tr><td><code>git init</code></td><td>현재 폴더를 Git 로컬 저장소로 초기화 (<code>.git</code> 폴더 생성)</td></tr>
+    <tr><td><code>rm -rf .git</code></td><td><code>.git</code>을 강제 삭제해 이력 초기화 — 처음부터 다시 시작할 때</td></tr>
+    <tr><td><code>git status</code></td><td>수정/추가/삭제된 파일 등 현재 변경 상태 확인</td></tr>
+    <tr><td><code>git log --all --oneline --graph -n 4</code></td><td>모든 브랜치 커밋 이력을 그래프로 최근 4개 표시</td></tr>
+    <tr><td><code>ls -a</code> / <code>cd ~/Desktop/lec13</code></td><td>숨김파일(.git)까지 목록 / 해당 폴더로 이동</td></tr>
+  </table>
+
+  <h3>② 스테이징 · 커밋</h3>
+  <table class="ref"><tr><th>명령어</th><th>설명</th></tr>
+    <tr><td><code>git add .</code></td><td>모든 변경 파일을 스테이징</td></tr>
+    <tr><td><code>git add code1.txt</code></td><td>특정 파일만 스테이징</td></tr>
+    <tr><td><code>git commit -m "메시지"</code></td><td>스테이징된 변경을 하나의 커밋으로 저장</td></tr>
+    <tr><td><code>echo "내용" &gt;&gt; 파일.txt</code></td><td>파일 끝에 내용 추가(append) — 없으면 새로 생성</td></tr>
+  </table>
+
+  <h3>③ 원격 저장소</h3>
+  <table class="ref"><tr><th>명령어</th><th>설명</th></tr>
+    <tr><td><code>git remote add origin &lt;url&gt;</code></td><td><code>origin</code> 이름으로 원격 URL 연결</td></tr>
+    <tr><td><code>git remote set-url origin &lt;url&gt;</code></td><td>이미 연결된 origin의 URL 변경 (add가 오류날 때)</td></tr>
+    <tr><td><code>git remote -v</code></td><td>연결된 원격의 이름과 URL 확인</td></tr>
+    <tr><td><code>git clone &lt;url&gt;</code></td><td>원격을 복제해 새 로컬 저장소 생성</td></tr>
+    <tr><td><code>git push -u origin main</code></td><td>로컬 main을 <b>처음</b> 올릴 때 — <code>-u</code>로 추적관계 설정</td></tr>
+    <tr><td><code>git push origin main</code> / <code>bug</code></td><td>해당 브랜치 커밋을 원격에 업로드</td></tr>
+    <tr><td><code>git pull origin main</code></td><td>원격 main 변경을 가져와 로컬에 병합</td></tr>
+  </table>
+
+  <h3>④ 브랜치 · 전환</h3>
+  <table class="ref"><tr><th>명령어</th><th>설명</th></tr>
+    <tr><td><code>git branch -a</code></td><td>로컬·원격 모든 브랜치 목록 (현재 브랜치는 <code>*</code>)</td></tr>
+    <tr><td><code>git checkout main</code></td><td>main 브랜치로 전환</td></tr>
+    <tr><td><code>git checkout -b bug</code></td><td>bug 브랜치를 새로 만들고 즉시 전환</td></tr>
+    <tr><td><code>git checkout -b bugfix origin/main</code></td><td>origin/main을 기준으로 bugfix 생성·전환</td></tr>
+    <tr><td><code>git checkout function</code></td><td>이미 있는 function 브랜치로 전환</td></tr>
+  </table>
+
+  <h3>⑤ 병합 · 리베이스</h3>
+  <table class="ref"><tr><th>명령어</th><th>설명</th></tr>
+    <tr><td><code>git merge function</code></td><td>function을 현재 브랜치에 병합 (일직선이면 fast-forward)</td></tr>
+    <tr><td><code>git merge --squash apple</code></td><td>apple의 여러 커밋을 하나로 압축해 병합 준비 — <b>별도 commit 필요</b></td></tr>
+    <tr><td><code>git rebase main</code></td><td>현재 브랜치 시작점을 main 끝으로 옮겨 <b>선형 이력</b> 생성</td></tr>
+    <tr><td><code>git rebase --continue</code> / <code>--abort</code></td><td>충돌 해결 후 계속 진행 / 중단하고 이전 상태로 복귀</td></tr>
+  </table>
+</section>
+
+<!-- ===================== 실습 시나리오 ===================== -->
+<section class="card" id="scn">
+  <h2>🧪 실습 1~4 시나리오<span class="week chap">실습</span></h2>
+  <p style="font-size:14px;">실제 시험에서 “순서대로 명령어를 쓰라”고 나올 수 있는 핵심 흐름입니다. 펼쳐서 단계별로 확인하세요.</p>
+
+  <details class="scn"><summary>실습 1 — Pull Request로 병합하기 (개발자 협업)</summary>
+    <div>
+      <p style="font-size:14px;">bug 브랜치에 <code class="k">code1.txt</code>를 추가하고, GitHub <b>Pull Request</b>로 main에 병합.</p>
+      <pre class="cmd"><code>git clone https://github.com/rawonDY/TeamProject.git
+cd TeamProject
+git checkout -b bug              <span class="c"># bug 브랜치 생성·전환</span>
+<span class="c"># (code1.txt 작성)</span>
+git add code1.txt
+git commit -m "code1.txt 파일에 내용 추가"
+git push origin bug             <span class="c"># bug 브랜치 업로드</span>
+<span class="c"># GitHub 웹: Pull Request 생성 (base: main ← compare: bug)</span>
+<span class="c"># 코드리뷰 후 Merge → "개발 내용 확인, 이상 없음"</span>
+git checkout main
+git pull origin main            <span class="c"># 병합 결과 로컬에 반영</span>
+git log --all --oneline --graph</code></pre>
+    </div>
+  </details>
+
+  <details class="scn"><summary>실습 2 — 로컬 PC 소스코드를 원격 저장소로 업로드</summary>
+    <div>
+      <pre class="cmd"><code>cd ~/Desktop/lec13
+git init                        <span class="c"># 로컬 저장소 초기화</span>
+git add .
+git commit -m "add code1.txt and code2.txt"
+git remote add origin https://github.com/gmlrms1016-dotcom/lec13.git
+git push -u origin main         <span class="c"># 처음 업로드 + 추적관계 설정</span></code></pre>
+    </div>
+  </details>
+
+  <details class="scn"><summary>실습 3 — 개발 브랜치 + Rebase (선형 이력 만들기)</summary>
+    <div>
+      <p style="font-size:14px;">function·main·bugfix 세 브랜치를 만들고, <b>rebase</b>로 한 줄(선형)로 정리한 뒤 <b>fast-forward merge</b>.</p>
+      <pre class="cmd"><code><span class="c">(1) 브랜치 3개 생성·커밋</span>
+git checkout -b function
+echo "function 개발" &gt;&gt; code1.txt
+git add . &amp;&amp; git commit -m "function 개발중"
+git checkout main
+echo "main 개발" &gt;&gt; code1.txt
+git add . &amp;&amp; git commit -m "main 개발중"
+git checkout -b bugfix origin/main
+echo "bug 수정" &gt;&gt; code2.txt
+git add . &amp;&amp; git commit -m "bug 수정"
+
+<span class="c">(2) main에 bugfix를 rebase → 선형</span>
+git checkout main
+git rebase bugfix
+
+<span class="c">(3) function을 main 위로 rebase (충돌 시 수정→git add .→git rebase --continue)</span>
+git checkout function
+git rebase main
+
+<span class="c">(4) main에 function merge → fast-forward</span>
+git checkout main
+git merge function
+git push origin main</code></pre>
+    </div>
+  </details>
+
+  <details class="scn"><summary>실습 4 — Squash Merge (커밋 5개 → 1개로 압축)</summary>
+    <div>
+      <pre class="cmd"><code><span class="c">(1) apple 브랜치에 커밋 5개</span>
+git checkout -b apple
+echo "apple1" &gt;&gt; code1.txt &amp;&amp; git add . &amp;&amp; git commit -m "apple"
+echo "apple2" &gt;&gt; code1.txt &amp;&amp; git add . &amp;&amp; git commit -m "apple"
+<span class="c"># ... apple3, apple4, apple5 동일</span>
+
+<span class="c">(2) main에서 squash merge → 하나로 합쳐 새 커밋</span>
+git checkout main
+git merge --squash apple
+git commit -m "five apples"     <span class="c"># 5개가 1개 커밋으로</span>
+
+<span class="c">(3) 원격에 push</span>
+git push origin main</code></pre>
+    </div>
+  </details>
+</section>
+
+<!-- ===================== 핵심 개념 ===================== -->
+<section class="card" id="concept">
+  <h2>🔑 핵심 개념 — merge · rebase · squash · PR<span class="week chap">비교</span></h2>
+  <table class="ref"><tr><th>개념</th><th>한 줄 정리</th></tr>
+    <tr><td><b>fast-forward merge</b></td><td>브랜치가 일직선상에 있을 때 <b>포인터만 앞으로 이동</b>하는 병합 (새 커밋 안 생김)</td></tr>
+    <tr><td><b>merge</b></td><td>다른 브랜치를 현재 브랜치에 합침. 갈래가 있으면 병합 커밋이 생기고 이력이 보존됨</td></tr>
+    <tr><td><b>rebase</b></td><td>브랜치의 <b>기반(base)을 다른 커밋으로 옮겨</b> 선형 이력 생성 (깔끔하지만 이력을 재작성)</td></tr>
+    <tr><td><b>merge --squash</b></td><td>여러 커밋을 <b>하나의 커밋으로 압축</b>해 병합 (별도 <code>commit</code> 필요)</td></tr>
+    <tr><td><b>Pull Request(PR)</b></td><td>원격에서 브랜치 병합을 <b>요청 + 코드리뷰</b>를 진행하는 GitHub 협업 기능</td></tr>
+  </table>
+  <div class="tip">🧠 <b>rebase vs merge</b> : 둘 다 합치지만 — <b>merge</b>는 갈래를 남기고(이력 보존), <b>rebase</b>는 한 줄로 펴서(이력 깔끔) 만든다. <b>squash</b>는 “여러 커밋 → 1개”.</div>
+</section>
+
+<!-- ===================== 퀴즈 ===================== -->
+<section class="card" id="quiz">
+  <h2>📝 퀴즈 — 객관식 + 괄호채우기<span class="week chap">점검</span></h2>
+
+  <h3>객관식 — 보기를 클릭하면 정답·해설이 보여요</h3>
+  <div class="mcq" data-correct="B">
+    <p class="mcq-q"><span class="mcq-no">1</span>작업 디렉토리의 변경 파일을 <b>스테이징 영역</b>에 올리는 명령어는?</p>
+    <button class="opt" data-opt="A"><b>A.</b> git commit</button>
+    <button class="opt" data-opt="B"><b>B.</b> git add</button>
+    <button class="opt" data-opt="C"><b>C.</b> git push</button>
+    <button class="opt" data-opt="D"><b>D.</b> git status</button>
+    <div class="mcq-exp"><b>정답 B</b> — 작업→스테이징은 <code>git add</code>. 스테이징→지역은 <code>git commit</code>.</div>
+  </div>
+  <div class="mcq" data-correct="C">
+    <p class="mcq-q"><span class="mcq-no">2</span>원격 저장소를 복제해 <b>새 로컬 저장소</b>를 만드는 명령어는?</p>
+    <button class="opt" data-opt="A"><b>A.</b> git pull</button>
+    <button class="opt" data-opt="B"><b>B.</b> git init</button>
+    <button class="opt" data-opt="C"><b>C.</b> git clone</button>
+    <button class="opt" data-opt="D"><b>D.</b> git remote add</button>
+    <div class="mcq-exp"><b>정답 C</b> — <code>git clone &lt;url&gt;</code>. <code>git pull</code>은 기존 저장소에 변경을 가져와 병합.</div>
+  </div>
+  <div class="mcq" data-correct="A">
+    <p class="mcq-q"><span class="mcq-no">3</span>여러 커밋을 <b>하나의 커밋으로 압축</b>해 병합하는 것은?</p>
+    <button class="opt" data-opt="A"><b>A.</b> git merge --squash</button>
+    <button class="opt" data-opt="B"><b>B.</b> git rebase</button>
+    <button class="opt" data-opt="C"><b>C.</b> fast-forward merge</button>
+    <button class="opt" data-opt="D"><b>D.</b> git pull</button>
+    <div class="mcq-exp"><b>정답 A</b> — <code>merge --squash</code> 후 <code>git commit</code>으로 하나의 커밋이 됨.</div>
+  </div>
+  <div class="mcq" data-correct="D">
+    <p class="mcq-q"><span class="mcq-no">4</span>브랜치의 <b>기반(base)을 옮겨 선형 이력</b>을 만드는 명령어는?</p>
+    <button class="opt" data-opt="A"><b>A.</b> git merge</button>
+    <button class="opt" data-opt="B"><b>B.</b> git checkout</button>
+    <button class="opt" data-opt="C"><b>C.</b> git squash</button>
+    <button class="opt" data-opt="D"><b>D.</b> git rebase</button>
+    <div class="mcq-exp"><b>정답 D</b> — <code>git rebase</code>는 이력을 한 줄로 펴 줌(재작성).</div>
+  </div>
+  <div class="mcq" data-correct="B">
+    <p class="mcq-q"><span class="mcq-no">5</span>새 브랜치를 <b>만들면서 동시에 전환</b>하는 명령어는?</p>
+    <button class="opt" data-opt="A"><b>A.</b> git branch bug</button>
+    <button class="opt" data-opt="B"><b>B.</b> git checkout -b bug</button>
+    <button class="opt" data-opt="C"><b>C.</b> git merge bug</button>
+    <button class="opt" data-opt="D"><b>D.</b> git checkout bug</button>
+    <div class="mcq-exp"><b>정답 B</b> — <code>-b</code>가 “생성+전환”. <code>git checkout bug</code>는 이미 있는 브랜치로만 전환.</div>
+  </div>
+  <div class="mcq" data-correct="C">
+    <p class="mcq-q"><span class="mcq-no">6</span>로컬 main을 원격에 <b>처음 올리며 추적관계를 설정</b>하는 명령은?</p>
+    <button class="opt" data-opt="A"><b>A.</b> git push origin main</button>
+    <button class="opt" data-opt="B"><b>B.</b> git pull origin main</button>
+    <button class="opt" data-opt="C"><b>C.</b> git push -u origin main</button>
+    <button class="opt" data-opt="D"><b>D.</b> git remote -v</button>
+    <div class="mcq-exp"><b>정답 C</b> — <code>-u</code>(=--set-upstream)로 이후엔 <code>git push</code>만 쳐도 됨.</div>
+  </div>
+
+  <h3 style="margin-top:18px;">괄호채우기 — 빈칸을 채우고 ‘확인’ (띄어쓰기·대소문자 무시)</h3>
+  <div id="quiz-score"></div>
+  <div class="qz-wrap">
+    <div class="quiz-item" data-answers="git init">
+      <div class="quiz-q"><span class="quiz-cat">괄호 1</span> 현재 폴더를 새 Git 로컬 저장소로 초기화하는 명령어는? (<code>.git</code> 생성)</div>
+      <input type="text" placeholder="답 입력">
+      <div class="quiz-btns"><button class="quiz-btn check">확인</button><button class="quiz-btn ghost show">정답 보기</button></div>
+      <div class="quiz-feedback"></div>
+    </div>
+    <div class="quiz-item" data-answers="git status">
+      <div class="quiz-q"><span class="quiz-cat">괄호 2</span> 수정/추가/삭제된 파일 등 현재 변경 상태를 확인하는 명령어는?</div>
+      <input type="text" placeholder="답 입력">
+      <div class="quiz-btns"><button class="quiz-btn check">확인</button><button class="quiz-btn ghost show">정답 보기</button></div>
+      <div class="quiz-feedback"></div>
+    </div>
+    <div class="quiz-item" data-answers="--graph">
+      <div class="quiz-q"><span class="quiz-cat">괄호 3</span> 커밋 이력을 그래프로 보려면? <code>git log --all --oneline ____</code></div>
+      <input type="text" placeholder="답 입력">
+      <div class="quiz-btns"><button class="quiz-btn check">확인</button><button class="quiz-btn ghost show">정답 보기</button></div>
+      <div class="quiz-feedback"></div>
+    </div>
+    <div class="quiz-item" data-answers="add">
+      <div class="quiz-q"><span class="quiz-cat">괄호 4</span> 원격 저장소를 origin 이름으로 연결: <code>git remote ____ origin &lt;url&gt;</code></div>
+      <input type="text" placeholder="답 입력">
+      <div class="quiz-btns"><button class="quiz-btn check">확인</button><button class="quiz-btn ghost show">정답 보기</button></div>
+      <div class="quiz-feedback"></div>
+    </div>
+    <div class="quiz-item" data-answers="git pull|git pull origin main">
+      <div class="quiz-q"><span class="quiz-cat">괄호 5</span> 원격 저장소의 변경사항을 가져와 로컬에 병합하는 명령어는?</div>
+      <input type="text" placeholder="답 입력">
+      <div class="quiz-btns"><button class="quiz-btn check">확인</button><button class="quiz-btn ghost show">정답 보기</button></div>
+      <div class="quiz-feedback"></div>
+    </div>
+    <div class="quiz-item" data-answers="스테이징 영역|스테이징|index|인덱스">
+      <div class="quiz-q"><span class="quiz-cat">괄호 6</span> Git 4영역 중 <code>add</code>와 <code>commit</code> 사이, 커밋 후보를 모아두는 영역은? (=Index)</div>
+      <input type="text" placeholder="답 입력">
+      <div class="quiz-btns"><button class="quiz-btn check">확인</button><button class="quiz-btn ghost show">정답 보기</button></div>
+      <div class="quiz-feedback"></div>
+    </div>
+    <div class="quiz-item" data-answers="pull request|풀리퀘스트|풀 리퀘스트|PR">
+      <div class="quiz-q"><span class="quiz-cat">괄호 7</span> 원격에서 브랜치 병합을 요청하고 코드리뷰를 진행하는 GitHub 기능은?</div>
+      <input type="text" placeholder="답 입력">
+      <div class="quiz-btns"><button class="quiz-btn check">확인</button><button class="quiz-btn ghost show">정답 보기</button></div>
+      <div class="quiz-feedback"></div>
+    </div>
+  </div>
+</section>
+
+    <footer class="page-head" style="margin-top:30px;">
+        <p>SW개발도구활용 기말 · 13주차 Git 집중정리 · © 2026 윤희근</p>
+    </footer>
+
+</div>
+
+<!-- 객관식 보기 클릭 채점 -->
+<script>
+    document.querySelectorAll('.mcq').forEach(function (q) {
+        var correct = q.dataset.correct;
+        q.querySelectorAll('.opt').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                if (q.classList.contains('answered')) return;
+                q.classList.add('answered');
+                q.querySelectorAll('.opt').forEach(function (b) {
+                    if (b.dataset.opt === correct) b.classList.add('correct');
+                });
+                if (btn.dataset.opt !== correct) btn.classList.add('wrong');
+                q.querySelector('.mcq-exp').style.display = 'block';
+            });
+        });
+    });
+</script>
+<!-- 괄호채우기 채점 -->
+<script>
+    function norm(s) { return s.trim().toLowerCase().replace(/\s+/g, '').replace(/[()]/g, ''); }
+    var items = document.querySelectorAll('.quiz-item');
+    var total = items.length;
+    function updateScore() {
+        var solved = document.querySelectorAll('.quiz-item[data-solved="1"]').length;
+        var el = document.getElementById('quiz-score');
+        if (el) el.textContent = '맞힌 문제 : ' + solved + ' / ' + total;
+    }
+    items.forEach(function (item) {
+        var answers = (item.dataset.answers || '').split('|');
+        var input = item.querySelector('input');
+        var fb = item.querySelector('.quiz-feedback');
+        var first = answers[0];
+        item.querySelector('.check').addEventListener('click', function () {
+            var ok = answers.some(function (a) { return norm(a) === norm(input.value); });
+            if (ok) { fb.className = 'quiz-feedback ok'; fb.innerHTML = '✅ 정답입니다!'; item.dataset.solved = '1'; }
+            else { fb.className = 'quiz-feedback no'; fb.innerHTML = '❌ 다시 생각해 보세요. <span class="ans">정답: <b>' + first + '</b></span>'; }
+            updateScore();
+        });
+        item.querySelector('.show').addEventListener('click', function () {
+            fb.className = 'quiz-feedback ok'; fb.innerHTML = '💡 정답: <span class="ans-code">' + first + '</span>';
+        });
+        input.addEventListener('keydown', function (e) { if (e.key === 'Enter') item.querySelector('.check').click(); });
+    });
+    updateScore();
+</script>
+<script src="review.js"></script>
+</body>
+</html>

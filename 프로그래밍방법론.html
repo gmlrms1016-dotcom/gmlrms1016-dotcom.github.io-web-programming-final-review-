@@ -28,6 +28,14 @@
         .swatch.io   { background:#fff3e0; transform:skewX(-18deg); }
         .swatch.proc { background:#eaf7ee; }
         .swatch.cond { background:#fdeaf1; transform:rotate(45deg) scale(.8); }
+        /* 실제 과제 캡처 갤러리 */
+        .flow-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+        @media (max-width:700px){ .flow-grid { grid-template-columns:1fr; } }
+        .flow-grp { margin:18px 0 8px; color:var(--main); font-size:15px; }
+        .flowshot { margin:0; }
+        .flowshot a { display:block; }
+        .flowshot img { width:100%; height:auto; display:block; border:1px solid var(--line); border-radius:10px; background:#fff; cursor:zoom-in; }
+        .flowshot figcaption { font-size:12.5px; color:#5b675d; margin-top:6px; line-height:1.5; }
         /* 코드 에디터 & 실행 (파이썬 페이지와 동일) */
         .pyprob { margin:8px 0 12px; }
         .py-editor { width:100%; min-height:230px; box-sizing:border-box; font-family:Consolas,"D2Coding",monospace; font-size:13px; line-height:1.55; background:#1e2530; color:#e6edf3; border:1px solid #2d3a4a; border-radius:10px; padding:12px; white-space:pre; tab-size:4; resize:vertical; }
@@ -58,9 +66,10 @@
     </header>
 
     <div class="tip">
-        ✍️ <b>이 과목의 핵심</b> : <b>문제 → 순서도(Flowgorithm)로 흐름 설계 → 파이썬 코드로 변환</b>입니다.
-        아래에서 <b>순서도 기호·3대 제어구조</b>를 먼저 정리하고, 각 문제는 <b>코드 에디터</b>에 직접 작성한 뒤
-        <b>[▶ 실행 &amp; 채점]</b>으로 브라우저 안에서 바로 채점받으세요.
+        ✍️ <b>이 과목의 핵심</b> : <b>문제 → 순서도(Flowgorithm)로 흐름 설계 → 파이썬 코드로 변환</b>입니다. (시험범위 9~14주차)
+        아래 <b>📐 순서도 정리</b>에는 <b>내가 과제로 직접 그린 Flowgorithm 캡처</b>(선택·반복·함수·클래스)가 들어 있어요.
+        이어지는 문제는 <b>코드 에디터</b>에 직접 작성한 뒤 <b>[▶ 실행 &amp; 채점]</b>으로 브라우저에서 바로 채점받으세요.
+        <b>14주차 클래스</b>가 특히 중요합니다(👉 6번 문제).
         <span style="color:#d9772b;font-weight:700;">※ 최초 실행 시 파이썬 환경을 받느라 수십 초 걸립니다.</span>
     </div>
 
@@ -100,7 +109,54 @@
     <tr><td>반복</td><td>되돌아가는(루프) 화살표</td><td><code>for</code> / <code>while</code></td></tr>
   </table>
 
-  <h3>3) 예제 — 가위바위보 순서도</h3>
+  <h3>3) 내가 제출한 Flowgorithm 순서도 (실제 과제 캡처)</h3>
+  <p style="font-size:14px;">9~14주차 과제로 <b>직접 그린 순서도</b>입니다. 변환 규칙 → 마름모는 <code>if/elif/else</code>, 육각형(반복)은 <code>for/while</code>, 서브프로그램은 <code>def</code>, 반환값은 <code>return</code>. <span style="color:#7a4ea3;">(이미지를 클릭하면 크게 볼 수 있어요)</span></p>
+
+  <h4 class="flow-grp">① 선택구조 — 마름모(조건)로 분기</h4>
+  <div class="flow-grid">
+    <figure class="flowshot">
+      <a href="pm-img/flow-rps.png" target="_blank" rel="noopener"><img src="pm-img/flow-rps.png" alt="가위바위보 순서도" loading="lazy"></a>
+      <figcaption><b>가위바위보</b> : <code>player==computer</code>면 비김, 거짓이면 <b>중첩 마름모</b>로 이김/짐 판정. 👉 <a href="#p2">2번 문제</a>의 설계도</figcaption>
+    </figure>
+    <figure class="flowshot">
+      <a href="pm-img/flow-calc.png" target="_blank" rel="noopener"><img src="pm-img/flow-calc.png" alt="부호 계산기 순서도" loading="lazy"></a>
+      <figcaption><b>부호 계산기</b> : <code>op</code> 값에 따라 +·−·× 로 갈라지는 <b>elif 사슬</b>(중첩 분기).</figcaption>
+    </figure>
+    <figure class="flowshot">
+      <a href="pm-img/flow-fee.png" target="_blank" rel="noopener"><img src="pm-img/flow-fee.png" alt="입장 요금 순서도" loading="lazy"></a>
+      <figcaption><b>입장 요금</b> : <code>age&lt;8 or age&gt;=60</code> → 무료(0), 아니면 6000원. <code>or</code> 복합조건.</figcaption>
+    </figure>
+    <figure class="flowshot">
+      <a href="pm-img/flow-score.png" target="_blank" rel="noopener"><img src="pm-img/flow-score.png" alt="성적 합격 판정 순서도" loading="lazy"></a>
+      <figcaption><b>성적 합격 판정</b> : 여러 조건을 <code>and</code>로 묶은 <b>하나의 큰 마름모</b>로 합격/불합격.</figcaption>
+    </figure>
+  </div>
+
+  <h4 class="flow-grp">② 반복구조 — 육각형(루프)</h4>
+  <div class="flow-grid">
+    <figure class="flowshot">
+      <a href="pm-img/flow-star.png" target="_blank" rel="noopener"><img src="pm-img/flow-star.png" alt="별 삼각형 순서도" loading="lazy"></a>
+      <figcaption><b>별 삼각형</b> : <code>line</code> 루프 안에 <code>space</code>·<code>star</code> 루프가 들어간 <b>중첩 반복</b>. 👉 <a href="#p3">3번 문제</a></figcaption>
+    </figure>
+  </div>
+
+  <h4 class="flow-grp">③ 함수 — 서브프로그램 + 반환값</h4>
+  <div class="flow-grid">
+    <figure class="flowshot">
+      <a href="pm-img/flow-func.png" target="_blank" rel="noopener"><img src="pm-img/flow-func.png" alt="max 함수 순서도" loading="lazy"></a>
+      <figcaption><b>max 서브프로그램</b> : 주프로그램과 <b>별도 블록</b>으로 만들고 <b>반환값(return)</b>으로 큰 수를 돌려줌 → 파이썬 <code>def / return</code>. 👉 <a href="#p5">5번 문제</a>도 함수</figcaption>
+    </figure>
+  </div>
+
+  <h4 class="flow-grp">④ 클래스 — 순서도엔 없음, 파이썬에서만 <span style="color:#d9772b;">(★ 시험 중요)</span></h4>
+  <div class="flow-grid">
+    <figure class="flowshot">
+      <a href="pm-img/class-cars.png" target="_blank" rel="noopener"><img src="pm-img/class-cars.png" alt="Cars 클래스" loading="lazy"></a>
+      <figcaption><b>Cars 클래스</b> : <code>__init__</code>으로 속성(model·color·number…) 저장 + 메서드(forward/stop/getcolor…). 클래스는 순서도 대신 <b>코드로</b>. 👉 <a href="#p6">6번 문제</a></figcaption>
+    </figure>
+  </div>
+
+  <h3>4) 한눈에 보는 예제 — 가위바위보 순서도(클린 재작성)</h3>
   <p style="font-size:14px;">아래 순서도가 곧 <b>2번 문제(<code>judge</code>)</b>의 설계도입니다. 마름모(조건) → <code>if</code>, 중첩 마름모 → 중첩 <code>if</code>로 그대로 옮기면 됩니다.</p>
 
   <svg class="flow-svg" viewBox="0 0 720 560" xmlns="http://www.w3.org/2000/svg" font-family="'맑은 고딕',Arial,sans-serif" font-size="14">

@@ -353,5 +353,20 @@ if __name__ == &quot;__main__&quot;:
 
 <script src="pyrun.js"></script>
 <script src="review.js"></script>
+<!-- [복습 완료 모드] ?done=1 : 시험 끝 → 배너 + 모든 정답 코드 펼치기 -->
+<script>
+(function(){
+  if(!/[?&]done=1/.test(location.search)) return;
+  var wrap = document.querySelector('.wrap');
+  if(wrap && !document.getElementById('done-banner')){
+    var bn = document.createElement('div');
+    bn.id = 'done-banner';
+    bn.style.cssText = 'background:#176c3a;color:#fff;border-radius:12px;padding:16px 18px;margin:0 0 18px;font-weight:800;text-align:center;line-height:1.6;';
+    bn.innerHTML = '🎉 시험 종료 · <b>복습 모드</b><br><span style="font-weight:600;font-size:14px;color:#d8efe2;">모든 ‘정답 코드’가 펼쳐져 있습니다. 코드 실행기는 그대로 연습할 수 있어요.</span>';
+    wrap.insertBefore(bn, wrap.firstChild.nextSibling);
+  }
+  document.querySelectorAll('details.akey').forEach(function(d){ d.open = true; });
+})();
+</script>
 </body>
 </html>
