@@ -149,7 +149,7 @@
     <rect class="bx" x="705" y="78" width="180" height="60" rx="8"/>
     <text class="bt" x="795" y="103">원격 저장소</text><text class="bs" x="795" y="123">Remote (GitHub)</text>
     <!-- 앞으로 흐름 -->
-    <path class="fa" d="M185,108 L243,108"/><text class="fl" x="214" y="68">git add</text>
+    <path class="fa" d="M185,108 L243,108"/><text class="fl" x="214" y="68">git add .</text>
     <path class="fa" d="M415,108 L473,108"/><text class="fl" x="444" y="68">git commit</text>
     <path class="fa" d="M645,108 L703,108"/><text class="fl" x="674" y="68">git push</text>
     <!-- 되돌아오는 흐름(pull / clone) -->
@@ -157,7 +157,7 @@
     <path class="ba" d="M795,138 L795,225 L100,225 L100,140"/><text class="bl" x="300" y="243">git clone (원격 → 작업 디렉토리, 새 로컬 생성)</text>
   </svg>
   <table class="ref"><tr><th>흐름</th><th>명령어</th><th>설명</th></tr>
-    <tr><td>작업 → 스테이징</td><td><code>git add</code></td><td>변경 파일을 커밋 후보(Index)에 올림</td></tr>
+    <tr><td>작업 → 스테이징</td><td><code>git add .</code></td><td>변경 파일을 커밋 후보(Index)에 올림</td></tr>
     <tr><td>스테이징 → 지역</td><td><code>git commit -m</code></td><td>올린 변경을 하나의 커밋으로 저장</td></tr>
     <tr><td>지역 → 원격</td><td><code>git push</code></td><td>로컬 커밋을 GitHub에 업로드</td></tr>
     <tr><td>원격 → 지역</td><td><code>git pull</code></td><td>원격 변경을 가져와 병합</td></tr>
@@ -649,10 +649,10 @@ git push origin main</code></pre>
   <div class="mcq" data-correct="B">
     <p class="mcq-q"><span class="mcq-no">1</span>작업 디렉토리의 변경 파일을 <b>스테이징 영역</b>에 올리는 명령어는?</p>
     <button class="opt" data-opt="A"><b>A.</b> git commit</button>
-    <button class="opt" data-opt="B"><b>B.</b> git add</button>
+    <button class="opt" data-opt="B"><b>B.</b> git add .</button>
     <button class="opt" data-opt="C"><b>C.</b> git push</button>
     <button class="opt" data-opt="D"><b>D.</b> git status</button>
-    <div class="mcq-exp"><b>정답 B</b> — 작업→스테이징은 <code>git add</code>. 스테이징→지역은 <code>git commit</code>.</div>
+    <div class="mcq-exp"><b>정답 B</b> — 작업→스테이징은 <code>git add .</code>. 스테이징→지역은 <code>git commit</code>.</div>
   </div>
   <div class="mcq" data-correct="C">
     <p class="mcq-q"><span class="mcq-no">2</span>원격 저장소를 복제해 <b>새 로컬 저장소</b>를 만드는 명령어는?</p>
