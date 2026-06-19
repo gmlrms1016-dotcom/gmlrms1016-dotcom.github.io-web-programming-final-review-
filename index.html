@@ -118,6 +118,10 @@
         /* 시험일 칩 */
         .day { display:inline-block; font-size:11px; font-weight:800; padding:3px 9px; border-radius:50px; background:#eef3f7; color:#33546c; border:1px solid #cfdce6; vertical-align:middle; }
         .day.tmr { background:#fff1e6; color:#b3590f; border-color:#f0c089; }   /* 내일 = 더 눈에 띄게 */
+        /* 실시간 시험 카운트다운 */
+        .countdown { display:inline-block; font-size:12px; font-weight:800; padding:3px 11px; border-radius:50px; background:#fff1e6; color:#b3590f; border:1px solid #f0c089; vertical-align:middle; font-variant-numeric:tabular-nums; }
+        .countdown.soon-wk { background:#eef3f7; color:#33546c; border-color:#cfdce6; }   /* 다음주 */
+        .countdown.now { background:#fde7e7; color:#b3261e; border-color:#f3b4ab; }       /* 시작/지남 */
 
         /* '준비중' 버튼은 흐리게 표시 */
         .subject.soon { background: #f7f8f7; }
@@ -155,7 +159,7 @@
     </header>
 
     <div class="tip" style="text-align: center;">
-        <span class="badge next">다음 시험</span> = 가장 임박 · <span class="badge soon">준비중</span> = 정리 예정 · <span class="badge fin">시험 완료</span> = 끝난 시험(복습 모드)
+        ⏳ 과목별 <b>기말 시험까지 남은 시간</b>이 실시간으로 표시됩니다 · <span class="badge soon">준비중</span> = 정리 예정 · <span class="badge fin">시험 완료</span> = 끝난 시험(복습 모드)
     </div>
 
     <div class="subjects">
@@ -164,27 +168,27 @@
 
         <!-- 1) 컴퓨터공학기초 — 다음(가장 임박) 시험, 정리 완료 → 이동 -->
         <a class="subject next" href="컴퓨터공학기초.html">
-            <div class="name">컴퓨터공학기초 <span class="day tmr">📅 내일</span> <span class="badge next">🔥 다음 시험</span></div>
+            <div class="name">컴퓨터공학기초 <span class="countdown" data-exam="2026-06-19T10:00:00"></span></div>
             <div class="desc">기말 시험범위 — 6장 인공지능·딥러닝 / 7장 컴퓨팅 사고력 / 9장 데이터베이스 / 10장 네트워크</div>
         </a>
 
         <!-- 2) 파이썬프로그래밍 — 예정 시험, 정리 완료 → 이동 -->
         <a class="subject next" href="파이썬프로그래밍.html">
-            <div class="name">파이썬프로그래밍 <span class="day tmr">📅 내일</span> <span class="badge next">🔥 다음 시험</span></div>
+            <div class="name">파이썬프로그래밍 <span class="countdown" data-exam="2026-06-19T14:00:00"></span></div>
             <div class="desc">기말 PB(실기) 4문제 풀이 — match-case / map·zip / turtle / try·except·random + 빈칸채우기</div>
         </a>
 
         <!-- 3) 프로그래밍방법론 — 예정 시험, 준비중 -->
         <button class="subject soon" type="button"
                 onclick="alert('아직 안 만들었습니다. 곧 추가될 예정이에요!')">
-            <div class="name">프로그래밍방법론 <span class="day">📅 다음주 월요일</span> <span class="badge soon">준비중</span></div>
+            <div class="name">프로그래밍방법론 <span class="countdown" data-exam="2026-06-22T10:00:00"></span> <span class="badge soon">준비중</span></div>
             <div class="desc">아직 정리하지 않은 과목입니다.</div>
         </button>
 
         <!-- 4) SW개발도구활용 — 예정 시험, 준비중 -->
         <button class="subject soon" type="button"
                 onclick="alert('아직 안 만들었습니다. 곧 추가될 예정이에요!')">
-            <div class="name">SW개발도구활용 <span class="day">📅 다음주 월요일</span> <span class="badge soon">준비중</span></div>
+            <div class="name">SW개발도구활용 <span class="countdown" data-exam="2026-06-22T14:00:00"></span> <span class="badge soon">준비중</span></div>
             <div class="desc">아직 정리하지 않은 과목입니다.</div>
         </button>
 
@@ -199,5 +203,30 @@
     <footer>© 2026 윤희근 · 전공 기말 정리 모음</footer>
 
 </div>
+
+<!-- 실시간 시험 카운트다운 -->
+<script>
+    function renderCountdowns() {
+        var now = Date.now();
+        document.querySelectorAll('.countdown').forEach(function (el) {
+            var t = new Date(el.dataset.exam).getTime();
+            var diff = t - now;
+            el.classList.remove('soon-wk', 'now');
+            if (diff <= 0) {
+                el.classList.add('now');
+                el.textContent = (diff > -6 * 3600 * 1000) ? '🎓 시험 시간!' : '시험 종료';
+                return;
+            }
+            var s = Math.floor(diff / 1000);
+            var d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600),
+                m = Math.floor(s % 3600 / 60), sec = s % 60;
+            if (d >= 2) el.classList.add('soon-wk');
+            var str = (d > 0 ? d + '일 ' : '') + h + '시간 ' + m + '분 ' + sec + '초';
+            el.textContent = '⏳ ' + str + ' 남음';
+        });
+    }
+    renderCountdowns();
+    setInterval(renderCountdowns, 1000);
+</script>
 </body>
 </html>
