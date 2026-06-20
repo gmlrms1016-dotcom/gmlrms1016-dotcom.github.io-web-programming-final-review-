@@ -614,6 +614,8 @@ Squash commit -- not updating HEAD</span>
   </div>
   <div class="cmdq" data-answer="git push -u origin main">
     <div class="cmdq-q"><span class="cmdq-no">4</span>로컬 <code>main</code>을 <b>처음</b> 원격에 올리며 <b>추적관계(-u)</b>를 설정하는 명령어는?<span class="tag">실습2</span></div>
+    <div class="lqlabel" style="margin:6px 0 3px;">📋 보기 — 커밋했지만 아직 push 안 함 — <code>origin/main</code> 없음</div>
+    <pre class="lqlog"><span class="h">* 6574e55</span> (<span class="hd">HEAD -&gt; main</span>) add code1.txt and code2.txt</pre>
     <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
@@ -644,6 +646,12 @@ Squash commit -- not updating HEAD</span>
   </div>
   <div class="cmdq" data-answer="git branch -d bugfix">
     <div class="cmdq-q"><span class="cmdq-no">7</span>rebase로 합쳐져 <b>병합이 끝난 <code>bugfix</code></b> 브랜치를 <b>삭제</b>하려면? (안전 삭제)<span class="tag">실습3</span></div>
+    <div class="lqlabel" style="margin:6px 0 3px;">📋 보기 — rebase 직후 — <code>bugfix</code>가 <code>main</code>에 포함됨(병합 완료)</div>
+    <pre class="lqlog"><span class="h">* 093c46b</span> (<span class="hd">HEAD -&gt; main</span>) main 개발중
+<span class="h">* d1f88b5</span> (<span class="br">bugfix</span>) bug 수정
+| <span class="h">* a2e0673</span> (<span class="br">function</span>) function 개발중
+|/
+<span class="h">* 81e3afd</span> (<span class="rm">origin/main, origin/HEAD</span>) upload two files</pre>
     <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
@@ -671,6 +679,11 @@ Squash commit -- not updating HEAD</span>
   </div>
   <div class="cmdq" data-answer="git push|git push origin main">
     <div class="cmdq-q"><span class="cmdq-no">10</span>최종 결과를 <b>원격에 올리려면</b>? (이미 <code>-u</code>로 추적관계 설정됨)<span class="tag">실습3</span></div>
+    <div class="lqlabel" style="margin:6px 0 3px;">📋 보기 — 로컬 <code>main</code>이 <code>origin/main</code>보다 앞섬</div>
+    <pre class="lqlog"><span class="h">* 654d816</span> (<span class="hd">HEAD -&gt; main</span>) function 개발중
+<span class="h">* 093c46b</span> main 개발중
+<span class="h">* d1f88b5</span> bug 수정
+<span class="h">* 81e3afd</span> (<span class="rm">origin/main, origin/HEAD</span>) upload two files</pre>
     <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
@@ -705,12 +718,25 @@ Squash commit -- not updating HEAD</span>
   </div>
   <div class="cmdq" data-answer="git commit -m 'five apples'">
     <div class="cmdq-q"><span class="cmdq-no">14</span>squash 직후, 메시지 <code>five apples</code> 로 <b>커밋</b>하려면? <span style="color:#5b7682;">(따옴표는 ' 또는 " 모두 정답)</span><span class="tag">실습4</span></div>
+    <div class="lqlabel" style="margin:6px 0 3px;">📋 보기 — <code>git merge --squash apple</code> 실행 결과 — 아직 커밋 안 됨</div>
+    <pre class="lqlog"><span class="o">$ git merge --squash apple
+Updating 654d816..f21f6ca
+Fast-forward</span>
+<span style="color:#ffd23f;font-weight:700;">Squash commit -- not updating HEAD</span></pre>
     <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
   <div class="cmdq" data-answer="git branch -D apple">
     <div class="cmdq-q"><span class="cmdq-no">15</span>squash-merge한 <code>apple</code> 브랜치를 삭제하려면? <span style="color:#5b7682;">(일반 <code>-d</code>는 거부됨 → 강제 삭제)</span><span class="tag">실습4</span></div>
+    <div class="lqlabel" style="margin:6px 0 3px;">📋 보기 — squash 커밋(f07c03d) 후 — <code>apple</code> 5커밋은 따로 남아 '미병합' 취급</div>
+    <pre class="lqlog"><span class="h">* f07c03d</span> (<span class="hd">HEAD -&gt; main</span>) five apples
+| <span class="h">* f21f6ca</span> (<span class="br">apple</span>) apple
+| <span class="h">* 1031176</span> apple
+| <span class="h">* ce81c5f</span> apple
+| <span class="h">* 03aa389</span> apple
+| <span class="h">* 11ba92a</span> apple
+|/</pre>
     <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
