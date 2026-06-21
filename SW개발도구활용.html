@@ -117,10 +117,10 @@
         .cmdq-no { display:inline-block; min-width:26px; height:24px; line-height:24px; text-align:center; background:var(--main); color:#fff; border-radius:6px; font-size:13px; margin-right:7px; }
         .cmdq .tag { font-size:11px; font-weight:800; color:#fff; background:#2f6f8f; border-radius:5px; padding:2px 7px; margin-left:6px; vertical-align:middle; }
         .cmdq .lqlog { margin:8px 0; }
-        .cmdq input { width:100%; box-sizing:border-box; font-family:Consolas,"D2Coding",monospace; font-size:14px; padding:9px 11px; border:1.5px solid var(--line); border-radius:8px; margin:6px 0 0; background:#fbfdfb; }
-        .cmdq input:focus { outline:none; border-color:var(--main); background:#fff; }
-        .cmdq input.ok { border-color:#2d6a4f; background:#eef6f0; }
-        .cmdq input.no { border-color:#d9534f; background:#fdf0f0; }
+        .cmdq textarea { width:100%; box-sizing:border-box; font-family:Consolas,"D2Coding",monospace; font-size:14px; line-height:1.55; padding:9px 11px; border:1.5px solid var(--line); border-radius:8px; margin:6px 0 0; background:#fbfdfb; resize:vertical; min-height:42px; white-space:pre; overflow-wrap:normal; }
+        .cmdq textarea:focus { outline:none; border-color:var(--main); background:#fff; }
+        .cmdq textarea.ok { border-color:#2d6a4f; background:#eef6f0; }
+        .cmdq textarea.no { border-color:#d9534f; background:#fdf0f0; }
         .cmdq-btns { display:flex; gap:8px; margin-top:8px; }
         .cmdq-btn { border:none; border-radius:7px; padding:8px 15px; font-size:13px; font-weight:800; cursor:pointer; font-family:inherit; }
         .cmdq-btn.check { background:var(--main); color:#fff; }
@@ -592,23 +592,23 @@ Squash commit -- not updating HEAD</span>
   <h2>📝 퀴즈 — 객관식 + 괄호채우기<span class="week chap">점검</span></h2>
 
   <h3>✍️ 로그/상황 보고 명령어 쓰기 <span style="font-weight:600;font-size:13px;color:#5b7682;">— 주관식 (실습 2~4 = 기말 전체 범위)</span></h3>
-  <p style="font-size:13px;color:#5b7682;margin:2px 0 8px;">명령어를 <b>직접 입력</b>하세요. 채점은 <b>띄어쓰기·점(.)·대소문자</b>까지 봅니다 — 정답이 <code>git add .</code>면 <code>gitadd.</code>·<code>git add</code> 는 오답.</p>
+  <p style="font-size:13px;color:#5b7682;margin:2px 0 8px;">명령어를 <b>직접 입력</b>하세요. 채점은 <b>띄어쓰기·점(.)·대소문자</b>까지 봅니다 — 정답이 <code>git add .</code>면 <code>gitadd.</code>·<code>git add</code> 는 오답. <b>한 줄로 끝나는 명령</b>을 <b>여러 줄로 나눠 쳐도</b> 정답이면 인정됩니다(예: <code>switch -c</code> = <code>branch</code> + <code>switch</code>) — <b>줄바꿈은 Shift+Enter, 채점은 Enter</b>.</p>
   <div id="cmdq-score"></div>
   <div class="cmdq" data-answer="git init">
     <div class="cmdq-q"><span class="cmdq-no">1</span>바탕화면 <code>lec13</code> 폴더를 <b>새 Git 로컬 저장소</b>로 만드는 명령어는? (<code>.git</code> 생성)<span class="tag">실습2</span></div>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
   <div class="cmdq" data-answer="git add .">
     <div class="cmdq-q"><span class="cmdq-no">2</span>작업한 <b>모든 변경 파일</b>을 스테이징 영역에 올리는 명령어는?<span class="tag">실습2</span></div>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
   <div class="cmdq" data-answer="git remote add origin <url>">
     <div class="cmdq-q"><span class="cmdq-no">3</span><code>origin</code> 이름으로 원격 저장소를 연결하는 명령어는? <span style="color:#5b7682;">(URL은 <code>&lt;url&gt;</code> 로 쓰세요)</span><span class="tag">실습2</span></div>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
@@ -616,7 +616,7 @@ Squash commit -- not updating HEAD</span>
     <div class="cmdq-q"><span class="cmdq-no">4</span>로컬 <code>main</code>을 <b>처음</b> 원격에 올리며 <b>추적관계(-u)</b>를 설정하는 명령어는?<span class="tag">실습2</span></div>
     <div class="lqlabel" style="margin:6px 0 3px;">📋 보기 — 커밋했지만 아직 push 안 함 — <code>origin/main</code> 없음</div>
     <pre class="lqlog"><span class="h">* 6574e55</span> (<span class="hd">HEAD -&gt; main</span>) add code1.txt and code2.txt</pre>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
@@ -628,7 +628,7 @@ Squash commit -- not updating HEAD</span>
 | <span class="h">* 853f7a4</span> (<span class="br">main</span>) main 개발중
 |/
 <span class="h">* 81e3afd</span> (<span class="rm">origin/main, origin/HEAD</span>) upload two files</pre>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
@@ -640,7 +640,7 @@ Squash commit -- not updating HEAD</span>
 | <span class="h">* a2e0673</span> (<span class="br">function</span>) function 개발중
 |/
 <span class="h">* 81e3afd</span> (<span class="rm">origin/main, origin/HEAD</span>) upload two files</pre>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
@@ -652,7 +652,7 @@ Squash commit -- not updating HEAD</span>
 | <span class="h">* a2e0673</span> (<span class="br">function</span>) function 개발중
 |/
 <span class="h">* 81e3afd</span> (<span class="rm">origin/main, origin/HEAD</span>) upload two files</pre>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
@@ -663,7 +663,7 @@ Squash commit -- not updating HEAD</span>
 | <span class="h">* d1f88b5</span> bug 수정
 |/
 <span class="h">* 81e3afd</span> (<span class="rm">origin/main, origin/HEAD</span>) upload two files</pre>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
@@ -673,7 +673,7 @@ Squash commit -- not updating HEAD</span>
 <span class="h">* 093c46b</span> (<span class="hd">HEAD -&gt; main</span>) main 개발중
 <span class="h">* d1f88b5</span> bug 수정
 <span class="h">* 81e3afd</span> (<span class="rm">origin/main, origin/HEAD</span>) upload two files</pre>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
@@ -684,7 +684,7 @@ Squash commit -- not updating HEAD</span>
 <span class="h">* 093c46b</span> main 개발중
 <span class="h">* d1f88b5</span> bug 수정
 <span class="h">* 81e3afd</span> (<span class="rm">origin/main, origin/HEAD</span>) upload two files</pre>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
@@ -694,13 +694,13 @@ Squash commit -- not updating HEAD</span>
 <span class="h">* 093c46b</span> main 개발중
 <span class="h">* d1f88b5</span> bug 수정
 <span class="h">* 81e3afd</span> upload two files</pre>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
   <div class="cmdq" data-answer="git switch apple">
     <div class="cmdq-q"><span class="cmdq-no">12</span><code>apple</code> 브랜치로 <b>전환</b>하려면?<span class="tag">실습4</span></div>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
@@ -712,7 +712,7 @@ Squash commit -- not updating HEAD</span>
 <span class="h">* 03aa389</span> apple
 <span class="h">* 11ba92a</span> apple
 <span class="h">* 654d816</span> (<span class="rm">origin/main, origin/HEAD</span>, <span class="br">main</span>) function 개발중</pre>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
@@ -723,7 +723,7 @@ Squash commit -- not updating HEAD</span>
 Updating 654d816..f21f6ca
 Fast-forward</span>
 <span style="color:#ffd23f;font-weight:700;">Squash commit -- not updating HEAD</span></pre>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
@@ -737,7 +737,7 @@ Fast-forward</span>
 | <span class="h">* 03aa389</span> apple
 | <span class="h">* 11ba92a</span> apple
 |/</pre>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
@@ -745,8 +745,9 @@ Fast-forward</span>
   <h3 style="margin-top:22px;">🔀 로그 변화로 명령어 맞히기 <span style="font-weight:600;font-size:13px;color:#5b7682;">— 보기1(지금) → 보기2(목표)</span></h3>
   <p style="font-size:13px;color:#5b7682;margin:2px 0 8px;">왼쪽 <b>보기1 log</b>가 <b>지금 상태</b>, 오른쪽 <b>보기2 log</b>가 <b>만들고 싶은 상태</b>입니다. <b>보기1 → 보기2</b>로 바꾸려면 어떤 명령어를 입력해야 할까요? <span>(<code>git log --oneline --graph --all</code> 기준 · <span class="hd" style="color:#3fb1ff;font-weight:700;">파랑=HEAD</span> · <span class="br" style="color:#2c9b3f;font-weight:700;">초록=지역브랜치</span> · <span class="rm" style="color:#d8741a;font-weight:700;">주황=origin</span>)</span></p>
 
-  <div class="cmdq" data-answer="git switch -c bugfix|git checkout -b bugfix">
+  <div class="cmdq" data-answer="git switch -c bugfix|git checkout -b bugfix|git branch bugfix git switch bugfix|git branch bugfix git checkout bugfix">
     <div class="cmdq-q"><span class="cmdq-no">16</span><b>보기2</b>처럼 <code>bugfix</code> 브랜치를 <b>만들고 그 위로 이동</b>(HEAD)하려면?<span class="tag">실습3</span></div>
+    <div style="font-size:12px;color:#5b7682;margin:-2px 0 2px;">💡 한 줄 <code>git switch -c bugfix</code> = 두 줄 <code>git branch bugfix</code> → <code>git switch bugfix</code> (둘 다 정답 · 두 줄은 Shift+Enter)</div>
     <div class="lqpair">
       <div class="lqcol"><div class="lqlabel">📋 보기1 — 지금 (main에 있음)</div>
         <pre class="lqlog"><span class="h">* 81e3afd</span> (<span class="hd">HEAD -&gt; main</span>) 공통 커밋</pre></div>
@@ -754,7 +755,7 @@ Fast-forward</span>
       <div class="lqcol"><div class="lqlabel b2">🎯 보기2 — 목표 (bugfix로 이동)</div>
         <pre class="lqlog"><span class="h">* 81e3afd</span> (<span class="hd">HEAD -&gt; bugfix</span>, <span class="br">main</span>) 공통 커밋</pre></div>
     </div>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
@@ -769,7 +770,7 @@ Fast-forward</span>
         <pre class="lqlog"><span class="h">* 1a2b3c4</span> (<span class="hd">HEAD -&gt; main</span>) main 개발중
 <span class="h">* 81e3afd</span> 공통 커밋</pre></div>
     </div>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
@@ -785,7 +786,7 @@ Fast-forward</span>
         <pre class="lqlog"><span class="h">* 654d816</span> (<span class="hd">HEAD -&gt; main</span>, <span class="br">function</span>) function 개발중
 <span class="h">* 093c46b</span> main 개발중</pre></div>
     </div>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
@@ -804,7 +805,7 @@ Fast-forward</span>
 <span class="h">* 093c46b</span> (<span class="br">main</span>) main 개발중
 <span class="h">* 81e3afd</span> 공통 커밋</pre></div>
     </div>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
@@ -820,7 +821,7 @@ Fast-forward</span>
         <pre class="lqlog"><span class="h">* 654d816</span> (<span class="hd">HEAD -&gt; main</span>, <span class="rm">origin/main, origin/HEAD</span>) function 개발중
 <span class="h">* 81e3afd</span> 공통 커밋</pre></div>
     </div>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
@@ -836,7 +837,7 @@ Fast-forward</span>
         <pre class="lqlog"><span class="h">* 093c46b</span> (<span class="hd">HEAD -&gt; main</span>) main 개발중
 <span class="h">* 81e3afd</span> 공통 커밋</pre></div>
     </div>
-    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <textarea rows="1" placeholder="명령어 입력 (예: git add .) — 두 줄은 Shift+Enter, 채점은 Enter" spellcheck="false" autocomplete="off"></textarea>
     <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
     <div class="cmdq-fb"></div>
   </div>
@@ -1005,7 +1006,7 @@ Fast-forward</span>
         items.forEach(function (item, idx) {
             var answers = (item.dataset.answer || "").split("|");
             var first = answers[0];
-            var input = item.querySelector("input");
+            var input = item.querySelector("textarea");
             var fb = item.querySelector(".cmdq-fb");
             var qtext = (item.querySelector(".cmdq-q") || {}).textContent || "";
             function report(wrong) {
@@ -1032,7 +1033,7 @@ Fast-forward</span>
                 fb.innerHTML = "💡 정답: <code>" + first + "</code>";
                 if (item.dataset.solved !== "1") { item.dataset.wrong = "1"; report(true); }
             });
-            input.addEventListener("keydown", function (e) { if (e.key === "Enter") check(); });
+            input.addEventListener("keydown", function (e) { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); check(); } });
         });
         updateScore();
     })();
