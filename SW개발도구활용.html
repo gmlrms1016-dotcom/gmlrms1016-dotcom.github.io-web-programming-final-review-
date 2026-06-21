@@ -130,6 +130,22 @@
         .cmdq-fb.ok { color:#176c3a; } .cmdq-fb.no { color:#a32f2b; }
         .cmdq-fb code { background:#11161c; color:#dff5e6; border-radius:5px; padding:2px 7px; font-family:Consolas,"D2Coding",monospace; }
         #cmdq-score { font-weight:800; color:var(--main); margin:4px 0 12px; }
+
+        /* 명령어 클릭 → 사용 예시 팝업 */
+        #cmd code.cmdex { cursor:pointer; border-bottom:1.5px dashed #2f6f8f; }
+        #cmd code.cmdex:hover { background:#dcebf5; }
+        #cmd code.cmdex::after { content:"\1F50D"; font-size:.78em; margin-left:3px; opacity:.55; }
+        .cmdex-hint { font-size:13px; color:#1d3a48; background:#eaf4f8; border-left:4px solid #2f6f8f; border-radius:6px; padding:8px 12px; margin:6px 0 2px; }
+        .cmdex-ov { position:fixed; inset:0; background:rgba(10,20,16,.55); display:none; align-items:center; justify-content:center; z-index:9999; padding:18px; }
+        .cmdex-ov.open { display:flex; }
+        .cmdex-box { background:#fff; border-radius:14px; max-width:640px; width:100%; max-height:82vh; overflow:auto; box-shadow:0 14px 44px rgba(0,0,0,.32); }
+        .cmdex-hd { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:13px 16px; border-bottom:1px solid var(--line); position:sticky; top:0; background:#fff; }
+        .cmdex-hd h3 { margin:0; font-size:15px; color:#1d3a48; font-family:Consolas,"D2Coding",monospace; word-break:break-all; }
+        .cmdex-x { flex:none; border:none; background:#eef3f7; color:#345; width:30px; height:30px; border-radius:8px; font-size:16px; cursor:pointer; font-weight:800; line-height:1; }
+        .cmdex-x:hover { background:#dde7ee; }
+        .cmdex-bd { padding:4px 16px 16px; }
+        .cmdex-bd .desc { font-size:13px; color:#3a4a52; margin:11px 2px 0; line-height:1.6; }
+        .cmdex-bd .desc b { color:#2f6f8f; }
     </style>
 </head>
 
@@ -206,6 +222,7 @@
 <!-- ===================== 명령어 레퍼런스 ===================== -->
 <section class="card" id="cmd">
   <h2>⌨️ 주차별 명령어 레퍼런스 (10~14주차)<span class="week chap">암기</span></h2>
+  <div class="cmdex-hint">🔍 <b>표의 명령어(점선 밑줄 🔍)를 클릭</b>하면 <b>실제 실행 예시(입력 + 출력/log)</b>가 팝업으로 떠요. 외우기 전에 “이 명령이 화면에 뭘 찍는지”를 눈으로 익히세요.</div>
   <div class="swnote">🔁 <b>우리는 <code>git checkout</code> 대신 <code>git switch</code>를 씁니다.</b>
     전환은 <code>git switch &lt;브랜치&gt;</code>, <b>생성+전환은 <code>git switch -c &lt;브랜치&gt;</code></b>
     (예전 <code>checkout -b</code>의 <code>-b</code> → switch에서는 <code>-c</code>). 13주차가 시험의 핵심이라 기본 펼침입니다.</div>
@@ -1427,6 +1444,241 @@ Fast-forward</span>
         });
         updateScore();
     })();
+</script>
+<script>
+/* =====================================================================
+   명령어 레퍼런스 — 명령어 클릭 시 '실제 사용 예시(입력+출력/log)' 팝업
+   - #cmd 표의 첫 칸(명령어) <code>를 정규식으로 매칭 → 예시 DB에서 찾아 모달 표시
+   ===================================================================== */
+(function () {
+    "use strict";
+    var P = '<span class="p">$</span> ';                       // 프롬프트
+    function c(t) { return '<span class="c">' + t + '</span>'; } // 주석/설명
+    function pre(body) { return '<pre class="cmd">' + body + '</pre>'; }
+
+    var EX = {
+        'config-name': { t: 'git config --global user.name "이름"',
+            d: '커밋 작성자 <b>이름</b>을 이 PC 전체에 설정. 안 하면 commit이 안 됩니다.',
+            b: pre(P + 'git config --global user.name "DongYang"\n' + P + 'git config --global user.name   ' + c('# 설정값 확인') + '\nDongYang') },
+        'config-email': { t: 'git config --global user.email "이메일"',
+            d: '커밋 작성자 <b>이메일</b>을 전역 설정.',
+            b: pre(P + 'git config --global user.email "dyu@dongyang.ac.kr"\n' + P + 'git config --global user.email\ndyu@dongyang.ac.kr') },
+        'init': { t: 'git init',
+            d: '현재 폴더를 Git 로컬 저장소로 초기화 — 숨김 폴더 <code>.git</code> 생성.',
+            b: pre(P + 'git init\nInitialized empty Git repository in ~/Desktop/lec13/.git/\n' + P + 'ls -a\n.   ..   .git') },
+        'status': { t: 'git status',
+            d: '작업 트리의 변경 상태(스테이지됨 / 안 됨 / 추적 안 됨)를 확인.',
+            b: pre(P + 'git status\nOn branch main\nChanges to be committed:\n        new file:   code1.txt\nChanges not staged for commit:\n        modified:   memo.txt\nUntracked files:\n        todo.txt') },
+        'add-all': { t: 'git add .',
+            d: '모든 변경(수정·추가·삭제)을 스테이징. <b>출력은 없고</b> status로 확인합니다.',
+            b: pre(P + 'git add .\n' + P + 'git status\nOn branch main\nChanges to be committed:\n        modified:   code1.txt\n        new file:   todo.txt') },
+        'add-file': { t: 'git add &lt;파일&gt;',
+            d: '특정 파일만 골라 스테이징.',
+            b: pre(P + 'git add code1.txt\n' + P + 'git status\nOn branch main\nChanges to be committed:\n        new file:   code1.txt') },
+        'commit': { t: 'git commit -m "메시지"',
+            d: '스테이징된 변경을 하나의 커밋으로 저장.',
+            b: pre(P + 'git commit -m "first commit"\n[main (root-commit) a1b2c3d] first commit\n 1 file changed, 1 insertion(+)\n create mode 100644 code1.txt') },
+        'commit-amend': { t: 'git commit --amend -m "수정 메시지"',
+            d: '<b>마지막 커밋의 메시지</b>를 고쳐 다시 작성(새 커밋이 추가되는 게 아님).',
+            b: pre(P + 'git commit --amend -m "fix: 커밋 메시지 수정"\n[main 9f8e7d6] fix: 커밋 메시지 수정\n Date: Sat Jun 21 18:30:00 2026\n 1 file changed, 1 insertion(+)') },
+        'push': { t: 'git push',
+            d: '로컬 커밋을 원격(GitHub)에 업로드.',
+            b: pre(P + 'git push\nEnumerating objects: 5, done.\nWriting objects: 100% (3/3), 290 bytes, done.\nTo https://github.com/USER/lec13.git\n   a1b2c3d..9f8e7d6  main -> main') },
+        'push-u': { t: 'git push -u origin main',
+            d: '로컬 main을 <b>처음</b> 올릴 때. <code>-u</code>로 origin/main과 추적관계를 맺습니다.',
+            b: pre(P + 'git push -u origin main\nEnumerating objects: 3, done.\nTo https://github.com/USER/lec13.git\n * [new branch]      main -> main\nbranch \'main\' set up to track \'origin/main\'.') },
+        'push-origin': { t: 'git push origin main',
+            d: '지정한 브랜치 커밋을 원격에 업로드.',
+            b: pre(P + 'git push origin main\nTo https://github.com/USER/lec13.git\n   a1b2c3d..9f8e7d6  main -> main') },
+        'push-del': { t: 'git push origin -d &lt;브랜치&gt;',
+            d: '<b>원격</b> 브랜치 삭제 (<code>-d</code> = <code>--delete</code>).',
+            b: pre(P + 'git push origin -d test\nTo https://github.com/USER/lec13.git\n - [deleted]         test') },
+        'pull': { t: 'git pull',
+            d: '원격 변경을 가져와 로컬에 병합.',
+            b: pre(P + 'git pull origin main\nremote: Enumerating objects: 5, done.\nUpdating a1b2c3d..9f8e7d6\nFast-forward\n code1.txt | 1 +\n 1 file changed, 1 insertion(+)') },
+        'clone': { t: 'git clone &lt;url&gt;',
+            d: '원격 저장소를 복제해 새 로컬 폴더를 만듭니다.',
+            b: pre(P + 'git clone https://github.com/rawonDY/TeamProject.git\nCloning into \'TeamProject\'...\nremote: Enumerating objects: 12, done.\nReceiving objects: 100% (12/12), done.\n' + P + 'cd TeamProject') },
+        'diff': { t: 'git diff',
+            d: '아직 스테이징 안 된 변경의 <b>줄 단위 차이</b>(<code>-</code> 삭제 / <code>+</code> 추가).',
+            b: pre(P + 'git diff\ndiff --git a/code1.txt b/code1.txt\nindex e69de29..b6fc4c6 100644\n--- a/code1.txt\n+++ b/code1.txt\n@@ -1 +1 @@\n-hello\n+hello world') },
+        'log': { t: 'git log',
+            d: '커밋 이력을 자세히(해시·작성자·날짜·메시지).',
+            b: pre(P + 'git log\ncommit 9f8e7d6c5b... (<span class="hd">HEAD -></span> <span class="br">main</span>, <span class="rm">origin/main</span>)\nAuthor: DongYang &lt;dyu@dongyang.ac.kr&gt;\nDate:   Sat Jun 21 18:30:00 2026\n\n    second commit\n\ncommit a1b2c3d4e5...\nAuthor: DongYang &lt;dyu@dongyang.ac.kr&gt;\n\n    first commit') },
+        'log-oneline': { t: 'git log --oneline',
+            d: '커밋 이력을 <b>한 줄씩</b> 간단히.',
+            b: pre(P + 'git log --oneline\n<span class="h">9f8e7d6</span> (<span class="hd">HEAD -></span> <span class="br">main</span>, <span class="rm">origin/main</span>) second commit\n<span class="h">a1b2c3d</span> first commit') },
+        'log-graph': { t: 'git log --all --oneline --graph',
+            d: '<b>모든 브랜치</b> 이력을 그래프로 — 병합·갈래가 한눈에.',
+            b: pre(P + 'git log --all --oneline --graph -n 4\n*   <span class="h">3c4d5e6</span> (<span class="hd">HEAD -></span> <span class="br">main</span>) Merge branch \'function\'\n|\\\n| * <span class="h">b2c3d4e</span> (<span class="br">function</span>) add function\n* | <span class="h">a1b2c3d</span> update main\n|/\n* <span class="h">0f0f0f0</span> first commit') },
+        'reset': { t: 'git reset / git reset &lt;파일&gt;',
+            d: '<b>스테이지 취소</b>(add 되돌리기). 파일 내용 자체는 그대로 둡니다.',
+            b: pre(P + 'git add code1.txt\n' + P + 'git reset code1.txt        ' + c('# 스테이지에서 내림') + '\nUnstaged changes after reset:\nM       code1.txt') },
+        'reset-soft': { t: 'git reset --soft &lt;시점&gt;',
+            d: '커밋만 취소하고 <b>staging은 그대로 유지</b>.',
+            b: pre(P + 'git reset --soft HEAD^\n' + P + 'git status\nChanges to be committed:\n        modified:   code1.txt     ' + c('# 커밋만 풀림, staged 유지')) },
+        'reset-mixed': { t: 'git reset --mixed &lt;시점&gt; (기본값)',
+            d: '커밋·staging을 취소하되 <b>로컬 파일 변경은 유지</b>(그냥 <code>git reset</code>과 같음).',
+            b: pre(P + 'git reset --mixed HEAD^\nUnstaged changes after reset:\nM       code1.txt\n' + P + 'git status\nChanges not staged for commit:\n        modified:   code1.txt') },
+        'reset-hard': { t: 'git reset --hard &lt;시점&gt;',
+            d: '커밋·staging·<b>로컬 변경까지 전부 삭제</b> — 되돌릴 수 없으니 주의!',
+            b: pre(P + 'git reset --hard HEAD^\nHEAD is now at a1b2c3d first commit\n' + P + 'git status\nOn branch main\nnothing to commit, working tree clean') },
+        'branch': { t: 'git branch',
+            d: '브랜치 목록 보기(현재 브랜치 앞에 <code>*</code>).',
+            b: pre(P + 'git branch\n* main\n  test') },
+        'branch-new': { t: 'git branch &lt;이름&gt;',
+            d: '브랜치를 <b>생성만</b> 함(전환은 안 됨 — 여전히 원래 브랜치).',
+            b: pre(P + 'git branch test\n' + P + 'git branch\n* main          ' + c('# 아직 main') + '\n  test') },
+        'branch-a': { t: 'git branch -a',
+            d: '로컬 + 원격(remotes/…)까지 <b>모든</b> 브랜치 목록.',
+            b: pre(P + 'git branch -a\n* main\n  bug\n  remotes/origin/main') },
+        'branch-d': { t: 'git branch -d &lt;이름&gt;',
+            d: '병합이 끝난 <b>로컬</b> 브랜치를 안전하게 삭제.',
+            b: pre(P + 'git branch -d test\nDeleted branch test (was b2c3d4e).') },
+        'branch-D': { t: 'git branch -D &lt;이름&gt;',
+            d: '병합 안 된 브랜치도 <b>강제</b> 삭제.',
+            b: pre(P + 'git branch -D test\nDeleted branch test (was b2c3d4e).') },
+        'switch': { t: 'git switch &lt;브랜치&gt;',
+            d: '이미 있는 브랜치로 <b>전환</b>.',
+            b: pre(P + 'git switch test\nSwitched to branch \'test\'') },
+        'switch-c': { t: 'git switch -c &lt;브랜치&gt;',
+            d: '브랜치 <b>생성 + 전환을 한 번에</b>(옛 <code>checkout -b</code>).',
+            b: pre(P + 'git switch -c bug\nSwitched to a new branch \'bug\'') },
+        'merge': { t: 'git merge &lt;브랜치&gt;',
+            d: '다른 브랜치를 현재 브랜치에 병합. 일직선이면 <b>Fast-forward</b>.',
+            b: pre(P + 'git merge function\nUpdating a1b2c3d..b2c3d4e\nFast-forward\n function.txt | 1 +\n 1 file changed, 1 insertion(+)') },
+        'merge-squash': { t: 'git merge --squash &lt;브랜치&gt;',
+            d: '여러 커밋을 <b>1개로 압축</b>해 병합 준비 → <b>별도 commit이 꼭 필요</b>.',
+            b: pre(P + 'git merge --squash apple\nSquash commit -- not updating HEAD\n' + P + 'git commit -m "apple 기능 합치기"\n[main e5f6a7b] apple 기능 합치기') },
+        'rebase': { t: 'git rebase &lt;브랜치&gt;',
+            d: '현재 브랜치를 대상 브랜치 끝으로 옮겨 <b>선형 이력</b>을 만듭니다.',
+            b: pre(P + 'git rebase main\nSuccessfully rebased and updated refs/heads/bug.') },
+        'rebase-cont': { t: 'git rebase --continue / --abort',
+            d: '충돌 해결 후 <b>계속 진행</b>(<code>--continue</code>) / 리베이스를 <b>중단</b>하고 원래대로(<code>--abort</code>).',
+            b: pre(P + 'git rebase main\nCONFLICT (content): Merge conflict in code1.txt\n' + P + c('# (충돌 해결 후)') + '\n' + P + 'git add .\n' + P + 'git rebase --continue   ' + c('# 계속') + '\n' + P + 'git rebase --abort      ' + c('# 또는 중단(원상복구)')) },
+        'remote-add': { t: 'git remote add origin &lt;url&gt;',
+            d: '<code>origin</code>이라는 이름으로 원격 URL을 연결.',
+            b: pre(P + 'git remote add origin https://github.com/USER/lec13.git\n' + P + 'git remote -v\norigin  https://github.com/USER/lec13.git (fetch)\norigin  https://github.com/USER/lec13.git (push)') },
+        'remote-seturl': { t: 'git remote set-url origin &lt;url&gt;',
+            d: '이미 연결된 origin의 URL을 <b>변경</b>(add가 "already exists" 오류날 때).',
+            b: pre(P + 'git remote set-url origin https://github.com/USER/new.git\n' + P + 'git remote -v\norigin  https://github.com/USER/new.git (fetch)\norigin  https://github.com/USER/new.git (push)') },
+        'remote-v': { t: 'git remote -v',
+            d: '연결된 원격의 이름과 URL을 확인.',
+            b: pre(P + 'git remote -v\norigin  https://github.com/USER/lec13.git (fetch)\norigin  https://github.com/USER/lec13.git (push)') },
+        'echo': { t: 'echo "내용" >> 파일.txt',
+            d: '파일 <b>끝에 내용 추가</b>(append) — 파일이 없으면 새로 생성.',
+            b: pre(P + 'echo "hello" >> code1.txt\n' + P + 'cat code1.txt\nhello') },
+        'ls-a': { t: 'ls -a',
+            d: '숨김 파일(<code>.git</code> 등)까지 포함해 목록 보기.',
+            b: pre(P + 'ls -a\n.   ..   .git   code1.txt   memo.txt') },
+        'cd': { t: 'cd &lt;경로&gt;',
+            d: '해당 폴더로 이동.',
+            b: pre(P + 'cd ~/Desktop/lec13\n' + P + 'pwd\n/Users/USER/Desktop/lec13') },
+        'rmgit': { t: 'rm -rf .git',
+            d: '<b>로컬</b> 저장소(<code>.git</code>)를 삭제해 이력 초기화(원격은 GitHub Settings에서).',
+            b: pre(P + 'rm -rf .git\n' + P + 'git status\nfatal: not a git repository (or any of the parent directories): .git') },
+        'gitignore': { t: '.gitignore',
+            d: 'Git이 <b>무시할</b> 파일/폴더 목록. 여기 적힌 파일은 status에 안 뜹니다.',
+            b: pre(P + 'cat .gitignore\n*.log\n.env\nbuild/\n' + P + 'git status\nOn branch main\nnothing to commit, working tree clean') },
+        'conflict': { t: '충돌 표시 (&lt;&lt;&lt; === &gt;&gt;&gt;)',
+            d: '같은 줄을 양쪽 브랜치가 고치면 표시됨. <b>원하는 내용만 남기고 표시 줄을 지운</b> 뒤 <code>git add .</code> → <code>git commit</code>.',
+            b: pre('&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD\n내 브랜치(main)에서 고친 내용\n=======\ntest 브랜치에서 고친 내용\n&gt;&gt;&gt;&gt;&gt;&gt;&gt; test') }
+    };
+
+    var RULES = [
+        [/^git config\b.*user\.name/, 'config-name'],
+        [/^git config\b.*user\.email/, 'config-email'],
+        [/^git init\b/, 'init'],
+        [/^git status\b/, 'status'],
+        [/^git add\s+\.\s*$/, 'add-all'],
+        [/^git add\b/, 'add-file'],
+        [/^git commit\s+--amend\b/, 'commit-amend'],
+        [/^git commit\b/, 'commit'],
+        [/^git push\s+-u\b/, 'push-u'],
+        [/^git push\s+origin\s+-d\b/, 'push-del'],
+        [/^git push\s+origin\b/, 'push-origin'],
+        [/^git push\b/, 'push'],
+        [/^git pull\b/, 'pull'],
+        [/^git clone\b/, 'clone'],
+        [/^git diff\b/, 'diff'],
+        [/^git log\b.*graph/, 'log-graph'],
+        [/^git log\s+--oneline\b/, 'log-oneline'],
+        [/^git log\b/, 'log'],
+        [/^git reset\s+--soft\b/, 'reset-soft'],
+        [/^git reset\s+--mixed\b/, 'reset-mixed'],
+        [/^git reset\s+--hard\b/, 'reset-hard'],
+        [/^git reset\b/, 'reset'],
+        [/^git branch\s+-a\b/, 'branch-a'],
+        [/^git branch\s+-D\b/, 'branch-D'],
+        [/^git branch\s+-d\b/, 'branch-d'],
+        [/^git branch\s+\S/, 'branch-new'],
+        [/^git branch\b/, 'branch'],
+        [/^git switch\s+-c\b/, 'switch-c'],
+        [/^git switch\b/, 'switch'],
+        [/^git merge\s+--squash\b/, 'merge-squash'],
+        [/^git merge\b/, 'merge'],
+        [/^git rebase\s+--(continue|abort)\b/, 'rebase-cont'],
+        [/^--(continue|abort)\b/, 'rebase-cont'],
+        [/^git rebase\b/, 'rebase'],
+        [/^git remote\s+add\b/, 'remote-add'],
+        [/^git remote\s+set-url\b/, 'remote-seturl'],
+        [/^git remote\s+-v\b/, 'remote-v'],
+        [/^echo\b/, 'echo'],
+        [/^ls\s+-a\b/, 'ls-a'],
+        [/^cd\b/, 'cd'],
+        [/^rm\s+-rf\s+\.git\b/, 'rmgit'],
+        [/^\.gitignore\b/, 'gitignore'],
+        [/^<{3,}/, 'conflict'],
+        [/^={5,}/, 'conflict'],
+        [/^>{3,}/, 'conflict']
+    ];
+
+    function norm(t) { return (t || '').replace(/\s+/g, ' ').trim(); }
+    function findKey(text) {
+        var n = norm(text);
+        for (var i = 0; i < RULES.length; i++) { if (RULES[i][0].test(n)) return RULES[i][1]; }
+        return null;
+    }
+
+    function init() {
+        var sec = document.getElementById('cmd');
+        if (!sec) return;
+
+        // 모달 1개 생성
+        var ov = document.createElement('div');
+        ov.className = 'cmdex-ov';
+        ov.innerHTML = '<div class="cmdex-box" role="dialog" aria-modal="true">'
+            + '<div class="cmdex-hd"><h3></h3><button class="cmdex-x" type="button" aria-label="닫기">✕</button></div>'
+            + '<div class="cmdex-bd"></div></div>';
+        document.body.appendChild(ov);
+        var elT = ov.querySelector('h3'), elB = ov.querySelector('.cmdex-bd');
+        function show(key) {
+            var e = EX[key]; if (!e) return;
+            elT.innerHTML = e.t;
+            elB.innerHTML = e.b + (e.d ? '<p class="desc">' + e.d + '</p>' : '');
+            ov.classList.add('open');
+        }
+        function hide() { ov.classList.remove('open'); }
+        ov.addEventListener('click', function (e) { if (e.target === ov) hide(); });
+        ov.querySelector('.cmdex-x').addEventListener('click', hide);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hide(); });
+
+        // 첫 칸 명령어들에 클릭 핸들러 부착
+        var n = 0;
+        sec.querySelectorAll('table.ref tr td:first-child code').forEach(function (el) {
+            if (el.classList.contains('k')) return;
+            var key = findKey(el.textContent);
+            if (!key || !EX[key]) return;
+            el.classList.add('cmdex');
+            el.setAttribute('title', '클릭 → 사용 예시 보기');
+            el.addEventListener('click', function (e) { e.stopPropagation(); show(key); });
+            n++;
+        });
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+})();
 </script>
 <script src="review.js"></script>
 </body>
