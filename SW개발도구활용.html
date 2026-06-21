@@ -742,6 +742,105 @@ Fast-forward</span>
     <div class="cmdq-fb"></div>
   </div>
 
+  <h3 style="margin-top:22px;">🔀 로그 변화로 명령어 맞히기 <span style="font-weight:600;font-size:13px;color:#5b7682;">— 보기1(지금) → 보기2(목표)</span></h3>
+  <p style="font-size:13px;color:#5b7682;margin:2px 0 8px;">왼쪽 <b>보기1 log</b>가 <b>지금 상태</b>, 오른쪽 <b>보기2 log</b>가 <b>만들고 싶은 상태</b>입니다. <b>보기1 → 보기2</b>로 바꾸려면 어떤 명령어를 입력해야 할까요? <span>(<code>git log --oneline --graph --all</code> 기준 · <span class="hd" style="color:#3fb1ff;font-weight:700;">파랑=HEAD</span> · <span class="br" style="color:#2c9b3f;font-weight:700;">초록=지역브랜치</span> · <span class="rm" style="color:#d8741a;font-weight:700;">주황=origin</span>)</span></p>
+
+  <div class="cmdq" data-answer="git switch -c bugfix|git checkout -b bugfix">
+    <div class="cmdq-q"><span class="cmdq-no">16</span><b>보기2</b>처럼 <code>bugfix</code> 브랜치를 <b>만들고 그 위로 이동</b>(HEAD)하려면?<span class="tag">실습3</span></div>
+    <div class="lqpair">
+      <div class="lqcol"><div class="lqlabel">📋 보기1 — 지금 (main에 있음)</div>
+        <pre class="lqlog"><span class="h">* 81e3afd</span> (<span class="hd">HEAD -&gt; main</span>) 공통 커밋</pre></div>
+      <div class="lqarrow">➜<small>명령어?</small></div>
+      <div class="lqcol"><div class="lqlabel b2">🎯 보기2 — 목표 (bugfix로 이동)</div>
+        <pre class="lqlog"><span class="h">* 81e3afd</span> (<span class="hd">HEAD -&gt; bugfix</span>, <span class="br">main</span>) 공통 커밋</pre></div>
+    </div>
+    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
+    <div class="cmdq-fb"></div>
+  </div>
+
+  <div class="cmdq" data-answer='git commit -m "main 개발중"'>
+    <div class="cmdq-q"><span class="cmdq-no">17</span>스테이징을 마친 변경을 메시지 <code>main 개발중</code> 으로 <b>커밋</b>해 <b>보기2</b>처럼 만들려면? <span style="color:#5b7682;">(메시지는 따옴표로 감싸기)</span><span class="tag">실습2</span></div>
+    <div class="lqpair">
+      <div class="lqcol"><div class="lqlabel">📋 보기1 — 지금 (커밋 1개)</div>
+        <pre class="lqlog"><span class="h">* 81e3afd</span> (<span class="hd">HEAD -&gt; main</span>) 공통 커밋</pre></div>
+      <div class="lqarrow">➜<small>명령어?</small></div>
+      <div class="lqcol"><div class="lqlabel b2">🎯 보기2 — 목표 (커밋 추가됨)</div>
+        <pre class="lqlog"><span class="h">* 1a2b3c4</span> (<span class="hd">HEAD -&gt; main</span>) main 개발중
+<span class="h">* 81e3afd</span> 공통 커밋</pre></div>
+    </div>
+    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
+    <div class="cmdq-fb"></div>
+  </div>
+
+  <div class="cmdq" data-answer="git merge function">
+    <div class="cmdq-q"><span class="cmdq-no">18</span><code>main</code>에서 <code>function</code>을 <b>fast-forward 병합</b>해 <b>보기2</b>처럼 만들려면?<span class="tag">실습3</span></div>
+    <div class="lqpair">
+      <div class="lqcol"><div class="lqlabel">📋 보기1 — 지금 (main이 뒤처짐)</div>
+        <pre class="lqlog"><span class="h">* 654d816</span> (<span class="br">function</span>) function 개발중
+<span class="h">* 093c46b</span> (<span class="hd">HEAD -&gt; main</span>) main 개발중</pre></div>
+      <div class="lqarrow">➜<small>명령어?</small></div>
+      <div class="lqcol"><div class="lqlabel b2">🎯 보기2 — 목표 (main이 따라붙음)</div>
+        <pre class="lqlog"><span class="h">* 654d816</span> (<span class="hd">HEAD -&gt; main</span>, <span class="br">function</span>) function 개발중
+<span class="h">* 093c46b</span> main 개발중</pre></div>
+    </div>
+    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
+    <div class="cmdq-fb"></div>
+  </div>
+
+  <div class="cmdq" data-answer="git rebase main">
+    <div class="cmdq-q"><span class="cmdq-no">19</span>갈라진 <code>function</code>(HEAD)을 <code>main</code> 위로 옮겨 <b>한 줄(선형)</b>로 만들려면?<span class="tag">실습3</span></div>
+    <div class="lqpair">
+      <div class="lqcol"><div class="lqlabel">📋 보기1 — 지금 (갈래짐)</div>
+        <pre class="lqlog"><span class="h">* a2e0673</span> (<span class="hd">HEAD -&gt; function</span>) function 개발중
+| <span class="h">* 093c46b</span> (<span class="br">main</span>) main 개발중
+|/
+<span class="h">* 81e3afd</span> 공통 커밋</pre></div>
+      <div class="lqarrow">➜<small>명령어?</small></div>
+      <div class="lqcol"><div class="lqlabel b2">🎯 보기2 — 목표 (선형)</div>
+        <pre class="lqlog"><span class="h">* 7c9d2f1</span> (<span class="hd">HEAD -&gt; function</span>) function 개발중
+<span class="h">* 093c46b</span> (<span class="br">main</span>) main 개발중
+<span class="h">* 81e3afd</span> 공통 커밋</pre></div>
+    </div>
+    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
+    <div class="cmdq-fb"></div>
+  </div>
+
+  <div class="cmdq" data-answer="git push|git push origin main">
+    <div class="cmdq-q"><span class="cmdq-no">20</span>로컬 <code>main</code>이 <code>origin/main</code>보다 앞선 상태에서 <b>원격에 올려</b> <b>보기2</b>처럼 만들려면? <span style="color:#5b7682;">(추적관계 <code>-u</code> 설정됨)</span><span class="tag">실습2</span></div>
+    <div class="lqpair">
+      <div class="lqcol"><div class="lqlabel">📋 보기1 — 지금 (origin이 뒤처짐)</div>
+        <pre class="lqlog"><span class="h">* 654d816</span> (<span class="hd">HEAD -&gt; main</span>) function 개발중
+<span class="h">* 81e3afd</span> (<span class="rm">origin/main, origin/HEAD</span>) 공통 커밋</pre></div>
+      <div class="lqarrow">➜<small>명령어?</small></div>
+      <div class="lqcol"><div class="lqlabel b2">🎯 보기2 — 목표 (origin 최신화)</div>
+        <pre class="lqlog"><span class="h">* 654d816</span> (<span class="hd">HEAD -&gt; main</span>, <span class="rm">origin/main, origin/HEAD</span>) function 개발중
+<span class="h">* 81e3afd</span> 공통 커밋</pre></div>
+    </div>
+    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
+    <div class="cmdq-fb"></div>
+  </div>
+
+  <div class="cmdq" data-answer="git branch -d bugfix|git branch -D bugfix">
+    <div class="cmdq-q"><span class="cmdq-no">21</span>병합이 끝나 더 필요 없는 <code>bugfix</code> 브랜치를 <b>삭제</b>해 <b>보기2</b>처럼 만들려면?<span class="tag">실습3</span></div>
+    <div class="lqpair">
+      <div class="lqcol"><div class="lqlabel">📋 보기1 — 지금 (bugfix 남아있음)</div>
+        <pre class="lqlog"><span class="h">* 093c46b</span> (<span class="hd">HEAD -&gt; main</span>, <span class="br">bugfix</span>) main 개발중
+<span class="h">* 81e3afd</span> 공통 커밋</pre></div>
+      <div class="lqarrow">➜<small>명령어?</small></div>
+      <div class="lqcol"><div class="lqlabel b2">🎯 보기2 — 목표 (bugfix 삭제됨)</div>
+        <pre class="lqlog"><span class="h">* 093c46b</span> (<span class="hd">HEAD -&gt; main</span>) main 개발중
+<span class="h">* 81e3afd</span> 공통 커밋</pre></div>
+    </div>
+    <input type="text" placeholder="명령어 입력 (예: git add .)" spellcheck="false" autocomplete="off">
+    <div class="cmdq-btns"><button class="cmdq-btn check">확인</button><button class="cmdq-btn show">정답 보기</button></div>
+    <div class="cmdq-fb"></div>
+  </div>
+
     <h3>객관식 — 보기를 클릭하면 정답·해설이 보여요</h3>
   <div class="mcq" data-correct="B">
     <p class="mcq-q"><span class="mcq-no">1</span>작업 디렉토리의 변경 파일을 <b>스테이징 영역</b>에 올리는 명령어는?</p>
