@@ -91,7 +91,7 @@ window.isExamFinished("X.html")                      // → true/false
 | `--ink` / `--ink-2` / `--muted` | `#1b241e` / `#5e6b62` / `#9aa69c` | 본문/보조/흐림 글자 |
 
 ### 모양·타이포
-- 폰트: `-apple-system, "Apple SD Gothic Neo", "Pretendard", "맑은 고딕", system-ui`
+- 폰트: **Pretendard**(jsDelivr CDN 로드) → `-apple-system, "Apple SD Gothic Neo", "맑은 고딕", system-ui` 폴백
 - 모서리: 카드 `--r:18px`, 작은요소 `--r-2:12px`, 알약 `999px`
 - 그림자: `--sh-1`(평상) · `--sh-2`(은은) · `--sh-3`(강조/hover)
 - 숫자(카운트다운)는 항상 `font-variant-numeric: tabular-nums` (자리 안 흔들림)
@@ -227,16 +227,17 @@ window.EXAM_SCHEDULE = {
 이것만으로 +3h 자동 복습 + 허브 카드 상태 계산이 동작합니다.
 
 ### Step 3 — `index.html` 2학기 화면 채우기
-`#sem2-mid` / `#sem2-final` 의 “준비 중” `.ph` 블록을, 1학기 허브(`#sem1-final`)처럼 **`.subjects` 리스트**로 교체하면 끝입니다. `tickHub()` 는 페이지의 **모든 `.subjects`** 를 자동 처리하므로 추가 JS가 필요 없습니다.
+`#sem2-mid` / `#sem2-final` 에는 **이미 빈 `.subjects` 컨테이너**(`#sem2-mid-list` / `#sem2-final-list`)가 들어 있습니다. 여기에 '과목 카드'를 넣고, 바로 아래 “준비 중” `.ph` 블록만 지우면 끝입니다. `tickHub()` 는 페이지의 **모든 `.subjects`** 를 자동 처리하므로 추가 JS가 필요 없습니다.
 ```html
 <section class="screen" id="sem2-mid" hidden>
   <div class="head">
     <button class="backbtn" data-back="sem2">‹ 1학년 2학기</button>
     <h1>2학기 중간고사</h1><div class="sub" id="sem2-mid-cd">—</div>
   </div>
-  <div class="subjects">
+  <div class="subjects" id="sem2-mid-list">
     <!-- ↑ '과목 카드' 컴포넌트들을 여기 나열 (data-file / data-exam 필수) -->
   </div>
+  <!-- 카드를 넣었으면 아래 .ph(준비 중) 블록은 삭제 -->
 </section>
 ```
 > 시험 **날짜·시간**을 바꾸려면 `index.html` 상단 JS의 `DDAY = { open, mid, final }` 와 `schedule.js` 두 곳을 맞춰주세요. 새 화면을 추가했다면 `SCREENS` 배열에도 id를 넣습니다.
