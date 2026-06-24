@@ -57,6 +57,7 @@
                        background:radial-gradient(120% 90% at 100% -10%,rgba(255,255,255,.16),transparent 60%); }
         .hero > * { position:relative; }
         .hero-eyebrow { font-size:14px; font-weight:700; letter-spacing:.2px; color:#cfeede; }
+        .hero-eyebrow svg { width:16px; height:16px; vertical-align:-3px; margin-right:3px; }
         .hero-clock { display:flex; justify-content:center; gap:10px; margin:14px 0 12px; }
         .seg { background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2); border-radius:14px;
                padding:11px 10px 8px; min-width:70px; backdrop-filter:blur(2px); }
@@ -71,6 +72,7 @@
                     font-variant-numeric:tabular-nums; letter-spacing:.2px; }
         .hero-pct b { font-weight:800; color:#eafff2; }
         .hero-done { font-size:24px; font-weight:800; padding:10px 0 4px; }
+        .hero-done svg { width:23px; height:23px; vertical-align:-4px; margin-right:5px; }
         @media (max-width:480px){ .seg{ min-width:62px; padding:9px 6px 7px; } .seg-n{ font-size:25px; } }
 
         /* ───── 큰 선택 버튼(학기/시험) ───── */
@@ -82,18 +84,24 @@
         .bigbtn:hover { transform:translateY(-3px); box-shadow:var(--sh-3); border-color:#cfe0d5; }
         .bigbtn:focus-visible { outline:2.5px solid var(--main); outline-offset:2px; }
         .bb-ic { flex:none; width:46px; height:46px; border-radius:13px; display:grid; place-items:center;
-                 font-size:22px; background:var(--brand-bg); }
+                 background:var(--brand-bg); color:var(--main); }
+        .bb-ic svg { width:27px; height:27px; display:block; }
+        /* 학년별 아이콘 색조 */
+        .bb-ic.g1 { background:#e7f1ea; color:#2d6a4f; }
+        .bb-ic.g2 { background:#e6eef8; color:#2f6db0; }
+        .bb-ic.g3 { background:#ece5f5; color:#6b46a8; }
+        .bb-ic.g4 { background:#f7ecdd; color:#b3590f; }
         .bb-body { flex:1; min-width:0; }
         .bb-t { display:block; font-size:18px; font-weight:800; color:var(--main); }
         .bb-s { display:block; font-size:12.5px; color:var(--ink-2); margin-top:3px; }
         .bb-go { flex:none; color:#bcccc1; font-size:24px; font-weight:700; line-height:1; transition:transform .16s var(--ease), color .16s; }
         .bigbtn:hover .bb-go { transform:translateX(3px); color:var(--main); }
-        .bigbtn.exam .bb-ic { background:var(--accent-bg); }
+        .bigbtn.exam .bb-ic { background:var(--accent-bg); color:var(--point); }
         .bigbtn.exam .bb-t { color:var(--point); }
         /* 비활성(종료) 카드 */
         .bigbtn.soon { cursor:default; background:#f6f8f6; box-shadow:none; }
         .bigbtn.soon:hover { transform:none; box-shadow:none; border-color:var(--line); }
-        .bigbtn.soon .bb-ic { background:#eceeec; filter:grayscale(.3); }
+        .bigbtn.soon .bb-ic { background:#eceeec; color:var(--muted); }
         .bigbtn.soon .bb-t { color:var(--muted); }
         .tag-done { font-size:11px; font-weight:800; padding:2px 9px; border-radius:var(--r-pill);
                     background:#eceeec; color:var(--muted); margin-left:7px; vertical-align:middle; }
@@ -114,7 +122,8 @@
                    box-shadow:var(--sh-1); transition:transform .16s var(--ease), box-shadow .16s var(--ease), border-color .16s var(--ease); }
         .subject:hover { transform:translateY(-2px); box-shadow:var(--sh-2); border-color:#cfe0d5; }
         .subject:focus-visible { outline:2.5px solid var(--main); outline-offset:2px; }
-        .subj-ic { flex:none; width:44px; height:44px; border-radius:12px; display:grid; place-items:center; font-size:21px; background:var(--brand-bg); }
+        .subj-ic { flex:none; width:44px; height:44px; border-radius:12px; display:grid; place-items:center; background:var(--brand-bg); }
+        .subj-ic svg { width:26px; height:26px; display:block; }
         .subj-body { flex:1; min-width:0; }
         .subj-name { display:block; font-size:16.5px; font-weight:800; color:var(--main); }
         .subj-desc { display:block; font-size:12.5px; color:var(--ink-2); margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -127,13 +136,14 @@
         /* 상태 칩 */
         .pill { display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:800; padding:6px 12px;
                 border-radius:var(--r-pill); font-variant-numeric:tabular-nums; white-space:nowrap; }
+        .pill svg, .cd svg { width:13px; height:13px; flex:none; }
         .pill.soon { background:#fff1e6; color:#b3590f; border:1px solid #f3d3ad; }   /* 임박(2일 미만) */
         .pill.wk   { background:#eef3f7; color:#33546c; border:1px solid #d3e0ea; }   /* 여유 */
         .pill.live { background:#fde7e7; color:#b3261e; border:1px solid #f3b4ab; }   /* 시험 중 */
         .pill.fin  { background:#e7f1ea; color:#2d6a4f; border:1px solid #c7e0d2; }   /* 완료·복습 */
 
         /* 버튼 안 카운트다운 칩(2학기) */
-        .cd { flex:none; font-size:12px; font-weight:800; padding:6px 12px; border-radius:var(--r-pill);
+        .cd { flex:none; display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:800; padding:6px 12px; border-radius:var(--r-pill);
               background:var(--accent-bg); color:#b3590f; border:1px solid #f3d3ad; font-variant-numeric:tabular-nums; white-space:nowrap; }
         .cd.wk { background:#eef3f7; color:#33546c; border-color:#d3e0ea; }
         .cd.live { background:#fde7e7; color:#b3261e; border-color:#f3b4ab; }
@@ -141,7 +151,8 @@
         /* 준비중 placeholder */
         .ph { background:var(--card); border:1px dashed var(--line-2); border-radius:var(--r); padding:44px 24px;
               text-align:center; color:var(--ink-2); font-size:14px; box-shadow:var(--sh-1); margin-top:12px; }
-        .ph .em { font-size:30px; display:block; margin-bottom:10px; }
+        .ph .em { display:block; margin-bottom:10px; color:var(--muted); }
+        .ph .em svg { width:36px; height:36px; display:inline-block; }
         .ph b { color:var(--main); }
         .foot { text-align:center; color:var(--muted); font-size:12px; margin-top:26px; }
 
@@ -156,7 +167,7 @@
     <!-- ════════ HOME ════════ -->
     <section class="screen" id="home">
         <div class="hero">
-            <div class="hero-eyebrow">🌱 2학기 개강까지</div>
+            <div class="hero-eyebrow"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21v-7.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M11.5 13.5C11.5 10.5 9.2 8.2 6 8.2c-.3 0-.6.3-.6.6 0 3 2.3 5.3 5.5 5.3.3 0 .6-.3.6-.6Z" fill="currentColor" fill-opacity=".25" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M12.5 12C12.5 8.7 14.8 6 18 6c.3 0 .6.3.6.6 0 3.3-2.3 6-5.5 6-.3 0-.6-.3-.6-.6Z" fill="currentColor" fill-opacity=".25" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>2학기 개강까지</div>
             <div class="hero-clock" id="dday-clock"></div>
             <div class="hero-date" id="dday-date">—</div>
             <div class="hero-bar"><i id="dday-bar"></i></div>
@@ -164,44 +175,44 @@
         </div>
         <div class="biggrid">
             <button class="bigbtn" type="button" data-go="sem1">
-                <span class="bb-ic">📘</span>
+                <span class="bb-ic g1"><svg viewBox="0 0 24 24" fill="none"><path d="M12 6.6C9.8 5 6.4 4.6 3.5 5.1A1 1 0 0 0 2.7 6.1v11.3a1 1 0 0 0 1.2 1c2.5-.5 5.6-.1 8.1 1.5 2.5-1.6 5.6-2 8.1-1.5a1 1 0 0 0 1.2-1V6.1a1 1 0 0 0-.8-1C17.6 4.6 14.2 5 12 6.6Z" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 6.6V20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">1학년 1학기</span><span class="bb-s">기말 5과목 완전정리 · 복습 모드</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
             <button class="bigbtn" type="button" data-go="sem2">
-                <span class="bb-ic">📗</span>
+                <span class="bb-ic g1"><svg viewBox="0 0 24 24" fill="none"><path d="M6 3.5h11.5a1 1 0 0 1 1 1v15.4a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2V5.5a2 2 0 0 1 2-2Z" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 17.3h14.5" stroke="currentColor" stroke-width="1.3"/><path d="M9 3.5v6l2-1.4 2 1.4v-6" fill="currentColor" fill-opacity=".45" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">1학년 2학기</span><span class="bb-s">중간·기말 D-카운트다운</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
 
             <!-- ▼ 2학년~4학년: 아직 한참 남아 숨김(hidden). 해당 학기가 오면 그 버튼의 hidden 만 지우면 노출됩니다. -->
             <button class="bigbtn" type="button" data-go="sem3" hidden>
-                <span class="bb-ic">📙</span>
+                <span class="bb-ic g2"><svg viewBox="0 0 24 24" fill="none"><path d="M12 6.6C9.8 5 6.4 4.6 3.5 5.1A1 1 0 0 0 2.7 6.1v11.3a1 1 0 0 0 1.2 1c2.5-.5 5.6-.1 8.1 1.5 2.5-1.6 5.6-2 8.1-1.5a1 1 0 0 0 1.2-1V6.1a1 1 0 0 0-.8-1C17.6 4.6 14.2 5 12 6.6Z" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 6.6V20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">2학년 1학기</span><span class="bb-s">중간·기말 (예정)</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
             <button class="bigbtn" type="button" data-go="sem4" hidden>
-                <span class="bb-ic">📕</span>
+                <span class="bb-ic g2"><svg viewBox="0 0 24 24" fill="none"><path d="M6 3.5h11.5a1 1 0 0 1 1 1v15.4a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2V5.5a2 2 0 0 1 2-2Z" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 17.3h14.5" stroke="currentColor" stroke-width="1.3"/><path d="M9 3.5v6l2-1.4 2 1.4v-6" fill="currentColor" fill-opacity=".45" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">2학년 2학기</span><span class="bb-s">중간·기말 (예정)</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
             <button class="bigbtn" type="button" data-go="sem5" hidden>
-                <span class="bb-ic">📓</span>
+                <span class="bb-ic g3"><svg viewBox="0 0 24 24" fill="none"><path d="M12 6.6C9.8 5 6.4 4.6 3.5 5.1A1 1 0 0 0 2.7 6.1v11.3a1 1 0 0 0 1.2 1c2.5-.5 5.6-.1 8.1 1.5 2.5-1.6 5.6-2 8.1-1.5a1 1 0 0 0 1.2-1V6.1a1 1 0 0 0-.8-1C17.6 4.6 14.2 5 12 6.6Z" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 6.6V20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">3학년 1학기</span><span class="bb-s">중간·기말 (예정)</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
             <button class="bigbtn" type="button" data-go="sem6" hidden>
-                <span class="bb-ic">📔</span>
+                <span class="bb-ic g3"><svg viewBox="0 0 24 24" fill="none"><path d="M6 3.5h11.5a1 1 0 0 1 1 1v15.4a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2V5.5a2 2 0 0 1 2-2Z" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 17.3h14.5" stroke="currentColor" stroke-width="1.3"/><path d="M9 3.5v6l2-1.4 2 1.4v-6" fill="currentColor" fill-opacity=".45" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">3학년 2학기</span><span class="bb-s">중간·기말 (예정)</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
             <button class="bigbtn" type="button" data-go="sem7" hidden>
-                <span class="bb-ic">📒</span>
+                <span class="bb-ic g4"><svg viewBox="0 0 24 24" fill="none"><path d="M12 6.6C9.8 5 6.4 4.6 3.5 5.1A1 1 0 0 0 2.7 6.1v11.3a1 1 0 0 0 1.2 1c2.5-.5 5.6-.1 8.1 1.5 2.5-1.6 5.6-2 8.1-1.5a1 1 0 0 0 1.2-1V6.1a1 1 0 0 0-.8-1C17.6 4.6 14.2 5 12 6.6Z" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 6.6V20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">4학년 1학기</span><span class="bb-s">중간·기말 (예정)</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
             <button class="bigbtn" type="button" data-go="sem8" hidden>
-                <span class="bb-ic">🎓</span>
+                <span class="bb-ic g4"><svg viewBox="0 0 24 24" fill="none"><path d="M6 3.5h11.5a1 1 0 0 1 1 1v15.4a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2V5.5a2 2 0 0 1 2-2Z" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 17.3h14.5" stroke="currentColor" stroke-width="1.3"/><path d="M9 3.5v6l2-1.4 2 1.4v-6" fill="currentColor" fill-opacity=".45" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">4학년 2학기</span><span class="bb-s">중간·기말 (예정)</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
@@ -217,11 +228,11 @@
         </div>
         <div class="biggrid">
             <div class="bigbtn soon">
-                <span class="bb-ic">🗂️</span>
+                <span class="bb-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4l2 2.2h9A1.5 1.5 0 0 1 21 8.7V18a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18V6.5Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">중간고사 <span class="tag-done">종료</span></span><span class="bb-s">정리 대상 아님</span></span>
             </div>
             <button class="bigbtn" type="button" data-go="sem1-final">
-                <span class="bb-ic">🏁</span>
+                <span class="bb-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6 21V4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M6 4.5h11.2l-2.3 3.6L17.2 12H6V4.5Z" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">기말고사</span><span class="bb-s">5과목 완전정리 · 인앱 채점</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
@@ -236,27 +247,27 @@
         </div>
         <div class="subjects" id="subject-list">
             <a class="subject" data-file="프로그래밍방법론.html" data-exam="2026-06-22T10:00:00" href="프로그래밍방법론.html">
-                <span class="subj-ic">🧭</span>
+                <span class="subj-ic"><svg viewBox="0 0 24 24" fill="none"><rect x="7.5" y="2.5" width="9" height="5" rx="1.4" fill="#d7ebe0" stroke="#2d6a4f" stroke-width="1.5"/><path d="M12 14.2 9.2 11.4 12 8.6l2.8 2.8L12 14.2Z" fill="#fcefe1" stroke="#d9772b" stroke-width="1.4" stroke-linejoin="round"/><rect x="7.5" y="16.5" width="9" height="5" rx="1.4" fill="#d7ebe0" stroke="#2d6a4f" stroke-width="1.5"/><path d="M12 7.5v1.1M12 14.2v2.3" stroke="#2d6a4f" stroke-width="1.4" stroke-linecap="round"/></svg></span>
                 <span class="subj-body"><span class="subj-name">프로그래밍방법론</span><span class="subj-desc">순서도 → 파이썬 · 선택/반복/함수/클래스 · 인앱 채점</span></span>
                 <span class="subj-state"></span>
             </a>
             <a class="subject" data-file="SW개발도구활용.html" data-exam="2026-06-22T14:00:00" href="SW개발도구활용.html">
-                <span class="subj-ic">🔀</span>
+                <span class="subj-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6.5 7.5v9" stroke="#2d6a4f" stroke-width="1.6" stroke-linecap="round"/><path d="M6.5 12c0-3 2.4-3.5 5-3.5" stroke="#d9772b" stroke-width="1.6" stroke-linecap="round"/><circle cx="6.5" cy="5" r="2.6" fill="#d7ebe0" stroke="#2d6a4f" stroke-width="1.5"/><circle cx="6.5" cy="19" r="2.6" fill="#d7ebe0" stroke="#2d6a4f" stroke-width="1.5"/><circle cx="14" cy="8.5" r="2.6" fill="#fcefe1" stroke="#d9772b" stroke-width="1.5"/></svg></span>
                 <span class="subj-body"><span class="subj-name">SW개발도구활용</span><span class="subj-desc">Git 집중 · add/commit/push · branch/merge · 명령어 퀴즈</span></span>
                 <span class="subj-state"></span>
             </a>
             <a class="subject" data-file="컴퓨터공학기초.html" data-exam="2026-06-18T10:00:00" href="컴퓨터공학기초.html">
-                <span class="subj-ic">🖥️</span>
+                <span class="subj-ic"><svg viewBox="0 0 24 24" fill="none"><rect x="2.5" y="4" width="19" height="12.5" rx="2" fill="#d7ebe0" stroke="#2d6a4f" stroke-width="1.5"/><path d="M9 20.5h6M12 16.5v4" stroke="#2d6a4f" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="10.2" r="2.3" fill="#fcefe1" stroke="#d9772b" stroke-width="1.4"/></svg></span>
                 <span class="subj-body"><span class="subj-name">컴퓨터공학기초</span><span class="subj-desc">AI · 컴퓨팅사고력 · DB · 네트워크 · 객관식/빈칸</span></span>
                 <span class="subj-state"></span>
             </a>
             <a class="subject" data-file="파이썬프로그래밍.html" data-exam="2026-06-19T10:00:00" href="파이썬프로그래밍.html">
-                <span class="subj-ic">🐍</span>
+                <span class="subj-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M8.5 7 4 12l4.5 5" stroke="#2d6a4f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.5 7 20 12l-4.5 5" stroke="#2d6a4f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.5 5 10.5 19" stroke="#d9772b" stroke-width="1.8" stroke-linecap="round"/></svg></span>
                 <span class="subj-body"><span class="subj-name">파이썬프로그래밍</span><span class="subj-desc">PB 실기 4문제 · 코드 실행기 · 복습 시 정답 자동 입력</span></span>
                 <span class="subj-state"></span>
             </a>
             <a class="subject" data-file="웹프로그래밍기초.html" data-exam="2026-06-20T10:00:00" href="웹프로그래밍기초.html">
-                <span class="subj-ic">🌐</span>
+                <span class="subj-ic"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="#d7ebe0" stroke="#2d6a4f" stroke-width="1.5"/><path d="M3 12h18" stroke="#2d6a4f" stroke-width="1.3"/><path d="M12 3c2.6 2.4 2.6 15.6 0 18M12 3c-2.6 2.4-2.6 15.6 0 18" stroke="#2d6a4f" stroke-width="1.3"/><path d="M5.5 6.5c3.8 2 9.2 2 13 0M5.5 17.5c3.8-2 9.2-2 13 0" stroke="#d9772b" stroke-width="1.3"/></svg></span>
                 <span class="subj-body"><span class="subj-name">웹프로그래밍 기초</span><span class="subj-desc">HTML/CSS 정리 · 태그 퀴즈 · 복습 시 정답·해설 공개</span></span>
                 <span class="subj-state"></span>
             </a>
@@ -272,12 +283,12 @@
         </div>
         <div class="biggrid">
             <button class="bigbtn exam" type="button" data-go="sem2-mid" data-exam-target="2026-10-19T09:00:00">
-                <span class="bb-ic">📝</span>
+                <span class="bb-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6 2.5h8L18.5 7v13.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13.5 2.5V7H18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 12h7M8 15.5h7M8 8.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">중간고사</span><span class="bb-s">10월 19일 시작</span></span>
                 <span class="cd">…</span>
             </button>
             <button class="bigbtn exam" type="button" data-go="sem2-final" data-exam-target="2026-12-07T09:00:00">
-                <span class="bb-ic">📝</span>
+                <span class="bb-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6 2.5h8L18.5 7v13.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13.5 2.5V7H18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 12h7M8 15.5h7M8 8.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">기말고사</span><span class="bb-s">12월 7일 시작</span></span>
                 <span class="cd">…</span>
             </button>
@@ -287,10 +298,10 @@
     <!-- 과목 추가법: 아래 .subjects 안에 .subject 카드를 넣고 schedule.js 에 파일명을 등록하면
          1학기와 똑같이 카운트다운·정렬·복습전환이 자동 적용됩니다. (자세한 건 README.md 참고)
         <a class="subject" data-file="2학기과목.html" data-exam="2026-10-19T09:00:00" href="2학기과목.html">
-            <span class="subj-ic">📘</span>
+            <span class="subj-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 6.6C9.8 5 6.4 4.6 3.5 5.1A1 1 0 0 0 2.7 6.1v11.3a1 1 0 0 0 1.2 1c2.5-.5 5.6-.1 8.1 1.5 2.5-1.6 5.6-2 8.1-1.5a1 1 0 0 0 1.2-1V6.1a1 1 0 0 0-.8-1C17.6 4.6 14.2 5 12 6.6Z" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 6.6V20" stroke="currentColor" stroke-width="1.5"/></svg></span>
             <span class="subj-body"><span class="subj-name">과목명</span><span class="subj-desc">한 줄 요약</span></span>
             <span class="subj-state"></span>
-        </a>                                                                                          -->
+        </a>   (아이콘은 24x24 viewBox 인라인 SVG · 색은 currentColor 권장)                              -->
     <section class="screen" id="sem2-mid" hidden>
         <div class="head">
             <button class="backbtn" type="button" data-back="sem2">‹ 1학년 2학기</button>
@@ -298,7 +309,7 @@
             <div class="sub" id="sem2-mid-cd">—</div>
         </div>
         <div class="subjects" id="sem2-mid-list"></div>
-        <div class="ph"><span class="em">🗂️</span><b>준비 중</b><br>2학기 개강 후 과목별 정리가 추가됩니다.</div>
+        <div class="ph"><span class="em"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4l2 2.2h9A1.5 1.5 0 0 1 21 8.7V18a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18V6.5Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><b>준비 중</b><br>2학기 개강 후 과목별 정리가 추가됩니다.</div>
     </section>
 
     <section class="screen" id="sem2-final" hidden>
@@ -308,7 +319,7 @@
             <div class="sub" id="sem2-final-cd">—</div>
         </div>
         <div class="subjects" id="sem2-final-list"></div>
-        <div class="ph"><span class="em">🗂️</span><b>준비 중</b><br>2학기 개강 후 과목별 정리가 추가됩니다.</div>
+        <div class="ph"><span class="em"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4l2 2.2h9A1.5 1.5 0 0 1 21 8.7V18a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18V6.5Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><b>준비 중</b><br>2학기 개강 후 과목별 정리가 추가됩니다.</div>
     </section>
 
     <!-- ════════ 2학년 ~ 4학년 (미래 학기) ════════
@@ -326,12 +337,12 @@
         </div>
         <div class="biggrid">
             <button class="bigbtn exam" type="button" data-go="sem3-mid">
-                <span class="bb-ic">📝</span>
+                <span class="bb-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6 2.5h8L18.5 7v13.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13.5 2.5V7H18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 12h7M8 15.5h7M8 8.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">중간고사</span><span class="bb-s">일정 미정</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
             <button class="bigbtn exam" type="button" data-go="sem3-final">
-                <span class="bb-ic">📝</span>
+                <span class="bb-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6 2.5h8L18.5 7v13.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13.5 2.5V7H18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 12h7M8 15.5h7M8 8.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">기말고사</span><span class="bb-s">일정 미정</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
@@ -343,7 +354,7 @@
             <h1>2학년 1학기 중간고사</h1>
         </div>
         <div class="subjects" id="sem3-mid-list"></div>
-        <div class="ph"><span class="em">🗂️</span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
+        <div class="ph"><span class="em"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4l2 2.2h9A1.5 1.5 0 0 1 21 8.7V18a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18V6.5Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
     </section>
     <section class="screen" id="sem3-final" hidden>
         <div class="head">
@@ -351,7 +362,7 @@
             <h1>2학년 1학기 기말고사</h1>
         </div>
         <div class="subjects" id="sem3-final-list"></div>
-        <div class="ph"><span class="em">🗂️</span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
+        <div class="ph"><span class="em"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4l2 2.2h9A1.5 1.5 0 0 1 21 8.7V18a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18V6.5Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
     </section>
 
     <!-- ════════ 2학년 2학기 ════════ -->
@@ -362,12 +373,12 @@
         </div>
         <div class="biggrid">
             <button class="bigbtn exam" type="button" data-go="sem4-mid">
-                <span class="bb-ic">📝</span>
+                <span class="bb-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6 2.5h8L18.5 7v13.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13.5 2.5V7H18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 12h7M8 15.5h7M8 8.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">중간고사</span><span class="bb-s">일정 미정</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
             <button class="bigbtn exam" type="button" data-go="sem4-final">
-                <span class="bb-ic">📝</span>
+                <span class="bb-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6 2.5h8L18.5 7v13.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13.5 2.5V7H18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 12h7M8 15.5h7M8 8.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">기말고사</span><span class="bb-s">일정 미정</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
@@ -379,7 +390,7 @@
             <h1>2학년 2학기 중간고사</h1>
         </div>
         <div class="subjects" id="sem4-mid-list"></div>
-        <div class="ph"><span class="em">🗂️</span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
+        <div class="ph"><span class="em"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4l2 2.2h9A1.5 1.5 0 0 1 21 8.7V18a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18V6.5Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
     </section>
     <section class="screen" id="sem4-final" hidden>
         <div class="head">
@@ -387,7 +398,7 @@
             <h1>2학년 2학기 기말고사</h1>
         </div>
         <div class="subjects" id="sem4-final-list"></div>
-        <div class="ph"><span class="em">🗂️</span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
+        <div class="ph"><span class="em"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4l2 2.2h9A1.5 1.5 0 0 1 21 8.7V18a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18V6.5Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
     </section>
 
     <!-- ════════ 3학년 1학기 ════════ -->
@@ -398,12 +409,12 @@
         </div>
         <div class="biggrid">
             <button class="bigbtn exam" type="button" data-go="sem5-mid">
-                <span class="bb-ic">📝</span>
+                <span class="bb-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6 2.5h8L18.5 7v13.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13.5 2.5V7H18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 12h7M8 15.5h7M8 8.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">중간고사</span><span class="bb-s">일정 미정</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
             <button class="bigbtn exam" type="button" data-go="sem5-final">
-                <span class="bb-ic">📝</span>
+                <span class="bb-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6 2.5h8L18.5 7v13.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13.5 2.5V7H18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 12h7M8 15.5h7M8 8.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">기말고사</span><span class="bb-s">일정 미정</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
@@ -415,7 +426,7 @@
             <h1>3학년 1학기 중간고사</h1>
         </div>
         <div class="subjects" id="sem5-mid-list"></div>
-        <div class="ph"><span class="em">🗂️</span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
+        <div class="ph"><span class="em"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4l2 2.2h9A1.5 1.5 0 0 1 21 8.7V18a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18V6.5Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
     </section>
     <section class="screen" id="sem5-final" hidden>
         <div class="head">
@@ -423,7 +434,7 @@
             <h1>3학년 1학기 기말고사</h1>
         </div>
         <div class="subjects" id="sem5-final-list"></div>
-        <div class="ph"><span class="em">🗂️</span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
+        <div class="ph"><span class="em"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4l2 2.2h9A1.5 1.5 0 0 1 21 8.7V18a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18V6.5Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
     </section>
 
     <!-- ════════ 3학년 2학기 ════════ -->
@@ -434,12 +445,12 @@
         </div>
         <div class="biggrid">
             <button class="bigbtn exam" type="button" data-go="sem6-mid">
-                <span class="bb-ic">📝</span>
+                <span class="bb-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6 2.5h8L18.5 7v13.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13.5 2.5V7H18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 12h7M8 15.5h7M8 8.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">중간고사</span><span class="bb-s">일정 미정</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
             <button class="bigbtn exam" type="button" data-go="sem6-final">
-                <span class="bb-ic">📝</span>
+                <span class="bb-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6 2.5h8L18.5 7v13.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13.5 2.5V7H18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 12h7M8 15.5h7M8 8.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">기말고사</span><span class="bb-s">일정 미정</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
@@ -451,7 +462,7 @@
             <h1>3학년 2학기 중간고사</h1>
         </div>
         <div class="subjects" id="sem6-mid-list"></div>
-        <div class="ph"><span class="em">🗂️</span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
+        <div class="ph"><span class="em"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4l2 2.2h9A1.5 1.5 0 0 1 21 8.7V18a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18V6.5Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
     </section>
     <section class="screen" id="sem6-final" hidden>
         <div class="head">
@@ -459,7 +470,7 @@
             <h1>3학년 2학기 기말고사</h1>
         </div>
         <div class="subjects" id="sem6-final-list"></div>
-        <div class="ph"><span class="em">🗂️</span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
+        <div class="ph"><span class="em"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4l2 2.2h9A1.5 1.5 0 0 1 21 8.7V18a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18V6.5Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
     </section>
 
     <!-- ════════ 4학년 1학기 ════════ -->
@@ -470,12 +481,12 @@
         </div>
         <div class="biggrid">
             <button class="bigbtn exam" type="button" data-go="sem7-mid">
-                <span class="bb-ic">📝</span>
+                <span class="bb-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6 2.5h8L18.5 7v13.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13.5 2.5V7H18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 12h7M8 15.5h7M8 8.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">중간고사</span><span class="bb-s">일정 미정</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
             <button class="bigbtn exam" type="button" data-go="sem7-final">
-                <span class="bb-ic">📝</span>
+                <span class="bb-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6 2.5h8L18.5 7v13.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13.5 2.5V7H18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 12h7M8 15.5h7M8 8.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">기말고사</span><span class="bb-s">일정 미정</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
@@ -487,7 +498,7 @@
             <h1>4학년 1학기 중간고사</h1>
         </div>
         <div class="subjects" id="sem7-mid-list"></div>
-        <div class="ph"><span class="em">🗂️</span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
+        <div class="ph"><span class="em"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4l2 2.2h9A1.5 1.5 0 0 1 21 8.7V18a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18V6.5Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
     </section>
     <section class="screen" id="sem7-final" hidden>
         <div class="head">
@@ -495,7 +506,7 @@
             <h1>4학년 1학기 기말고사</h1>
         </div>
         <div class="subjects" id="sem7-final-list"></div>
-        <div class="ph"><span class="em">🗂️</span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
+        <div class="ph"><span class="em"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4l2 2.2h9A1.5 1.5 0 0 1 21 8.7V18a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18V6.5Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
     </section>
 
     <!-- ════════ 4학년 2학기 ════════ -->
@@ -506,12 +517,12 @@
         </div>
         <div class="biggrid">
             <button class="bigbtn exam" type="button" data-go="sem8-mid">
-                <span class="bb-ic">📝</span>
+                <span class="bb-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6 2.5h8L18.5 7v13.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13.5 2.5V7H18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 12h7M8 15.5h7M8 8.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">중간고사</span><span class="bb-s">일정 미정</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
             <button class="bigbtn exam" type="button" data-go="sem8-final">
-                <span class="bb-ic">📝</span>
+                <span class="bb-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6 2.5h8L18.5 7v13.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M13.5 2.5V7H18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 12h7M8 15.5h7M8 8.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
                 <span class="bb-body"><span class="bb-t">기말고사</span><span class="bb-s">일정 미정</span></span>
                 <span class="bb-go" aria-hidden="true">›</span>
             </button>
@@ -523,7 +534,7 @@
             <h1>4학년 2학기 중간고사</h1>
         </div>
         <div class="subjects" id="sem8-mid-list"></div>
-        <div class="ph"><span class="em">🗂️</span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
+        <div class="ph"><span class="em"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4l2 2.2h9A1.5 1.5 0 0 1 21 8.7V18a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18V6.5Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
     </section>
     <section class="screen" id="sem8-final" hidden>
         <div class="head">
@@ -531,7 +542,7 @@
             <h1>4학년 2학기 기말고사</h1>
         </div>
         <div class="subjects" id="sem8-final-list"></div>
-        <div class="ph"><span class="em">🗂️</span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
+        <div class="ph"><span class="em"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4l2 2.2h9A1.5 1.5 0 0 1 21 8.7V18a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18V6.5Z" fill="currentColor" fill-opacity=".15" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><b>준비 중</b><br>해당 학기 개강 후 과목별 정리가 추가됩니다.</div>
     </section>
 
 </div>
@@ -544,6 +555,14 @@
     var BREAK_START = "2026-06-22T17:00:00";          // 여름방학 시작(마지막 기말 종료=진행바 기준점)
     var DAY = 86400000, NEAR = 2 * DAY;               // 2일 미만이면 '임박'
     var WD = ["일", "월", "화", "수", "목", "금", "토"];
+
+    /* 상태 칩용 인라인 SVG 아이콘(이모지 대체 · currentColor 로 칩 색 자동 일치) */
+    var IC = {
+        clock: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        cap: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 4 2.5 9 12 14l9.5-5L12 4Z" fill="currentColor" fill-opacity=".25" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M6.5 11.3v4.2c0 1.4 2.5 2.5 5.5 2.5s5.5-1.1 5.5-2.5v-4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+        check: '<svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5 10 17.5 19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        party: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 3l1.9 4.8L18.5 9l-4.6 1.9L12 15.5 10.1 10.9 5.5 9l4.6-1.2L12 3Z" fill="currentColor" fill-opacity=".25" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>'
+    };
 
     function pad(n) { return (n < 10 ? "0" : "") + n; }
     function parts(diff) {
@@ -591,14 +610,14 @@
                 if (finished) {
                     a.dataset.fin = "1"; a.classList.add("fin");
                     a.setAttribute("href", file + "?done=1");
-                    st.innerHTML = '<span class="pill fin">✅ 복습</span>';
+                    st.innerHTML = '<span class="pill fin">' + IC.check + ' 복습</span>';
                 } else {
                     a.dataset.fin = "0"; a.classList.remove("fin");
                     a.setAttribute("href", file);
                     if (diff > 0) {
-                        st.innerHTML = '<span class="pill ' + (diff < NEAR ? "soon" : "wk") + '">⏳ ' + chip(diff) + '</span>';
+                        st.innerHTML = '<span class="pill ' + (diff < NEAR ? "soon" : "wk") + '">' + IC.clock + ' ' + chip(diff) + '</span>';
                     } else {
-                        st.innerHTML = '<span class="pill live">🎓 시험 중</span>';
+                        st.innerHTML = '<span class="pill live">' + IC.cap + ' 시험 중</span>';
                     }
                 }
             });
@@ -628,7 +647,7 @@
             bar.style.width = ratio.toFixed(1) + "%";
             pct.innerHTML = "방학 <b>" + ratio.toFixed(5) + "%</b> 진행";
         } else {
-            el.innerHTML = '<div class="hero-done">🎉 개강했어요!</div>';
+            el.innerHTML = '<div class="hero-done">' + IC.party + '개강했어요!</div>';
             bar.style.width = "100%";
             pct.innerHTML = "방학 <b>100.00000%</b> 진행";
         }
@@ -640,7 +659,7 @@
             var diff = new Date(el.dataset.examTarget).getTime() - Date.now();
             var span = el.querySelector(".cd"); if (!span) return;
             if (diff > 0) { span.className = "cd" + (diff >= NEAR ? " wk" : ""); span.textContent = chip(diff); }
-            else { span.className = "cd live"; span.textContent = "🎓 시험 기간"; }
+            else { span.className = "cd live"; span.innerHTML = IC.cap + ' 시험 기간'; }
         });
         cap("sem2-mid-cd", DDAY.mid, "중간고사");
         cap("sem2-final-cd", DDAY.final, "기말고사");
